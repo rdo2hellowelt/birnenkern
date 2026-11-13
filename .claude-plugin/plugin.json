@@ -1,0 +1,15 @@
+{
+  "name": "birne",
+  "description": "Zeichnet einen Zusammenhang als technisches Blatt nach DIN, Tusche auf Weiß: Rahmen mit Zonen, Schriftfeld unten rechts, Linienarten statt Farbe, Draufsicht, Schnitt, Detail, Zeitachse und Tabellen.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Hans M."
+  },
+  "skills": [
+    "./skills/"
+  ],
+  "homepage": "https://github.com/rdo2hellowelt/birnenkern",
+  "repository": "https://github.com/rdo2hellowelt/birnenkern",
+  "license": "MIT",
+  "keywords": ["drawing", "din", "technical-drawing", "diagram", "svg", "deutsch"]
+}
