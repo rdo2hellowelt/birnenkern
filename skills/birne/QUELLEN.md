@@ -10,8 +10,10 @@
 
 ## Kopie in Apfel
 
-Das Plugin apfel (https://github.com/rdo2hellowelt/apfelkern) trägt diesen Ordner als `skills/birne`, Datei für Datei
-gleich. Geändert wird nur hier. Danach im Ordner apfelkern nachziehen und prüfen:
+Das Plugin apfel (https://github.com/rdo2hellowelt/apfelkern) trägt die kleine Birne als `skills/birne`, schwarz-weiß,
+Stand 1.1.0. Seit 1.2.0 wird nicht mehr nachgezogen: Der Modus bunt bleibt in birnenkern, wer ihn will, lädt Birne
+zu Apfel dazu (Entscheidung 16.11.2026). Nur wenn eine Änderung am Schwarz-Weiß auch in Apfel soll, im Ordner
+apfelkern nachziehen und prüfen:
 
 ```sh
 rsync -a --delete ../birnenkern/skills/birne/ skills/birne/
@@ -35,7 +37,7 @@ diff <(sed -e '1d' -e '/aria-label=/d' -e '/===== ZEICHNUNG/,$d' blatt-vorlage.h
   Titel mit Icon, Fenster, Schnittlinie, Weg, Maßkette, Koten, Positionsnummern, Pinsel, Ensō und Siegel. Ohne Modus
   zeichnen dieselben Bausteine in Grau. Ansicht, Grundriss, Schnitt und Werkstück nach DIN 1356-1 in
   `references/din.md`. Muster `assets/beispiel-bunt.html`, Bild `docs/beispiel-bunt.png`, Entwürfe als Kontaktabzug
-  in `docs/entwuerfe/`. Zwei Prüffälle dazu.
+  in `docs/entwuerfe/`. Zwei Prüffälle dazu. Apfel behält die kleine Birne 1.1.0, schwarz-weiß.
 
 - **13.11.2026, 1.1.0.** `sprache('en')` für englische Blätter: Hinweise, Allgemeine Hinweise und Schriftfeld.
   Prüffälle in `evals/evals.json`. Ungenutztes CSS aus Apfels früherem HTML-Kopf entfernt. Interne Unterlagen heißen

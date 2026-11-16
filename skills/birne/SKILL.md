@@ -18,8 +18,8 @@ description: |-
 Ein Blatt zeigt, wie etwas aufgebaut ist und welchen Weg es nimmt, so wie eine Maschinenbau-, Architektur- oder
 Elektrozeichnung. Die Striche tragen die Bedeutung, nicht die Farbe.
 
-Apfel prüft, Birne zeichnet. Das Plugin apfel trägt eine Kopie von Birne in sich und zeichnet seine Befunde damit.
-Geändert wird nur in birnenkern, dann die Kopie nachziehen (`QUELLEN.md`).
+Apfel prüft, Birne zeichnet. Das Plugin apfel trägt die kleine Birne (schwarz-weiß, Stand 1.1.0) und zeichnet seine
+Befunde damit. Geändert wird nur in birnenkern; der Modus bunt bleibt hier (`QUELLEN.md`).
 
 ## Wann, wann nicht
 

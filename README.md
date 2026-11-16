@@ -140,9 +140,8 @@ before it opens it.
 ## Birne and Apfel
 
 [Apfel](https://github.com/rdo2hellowelt/apfelkern) reviews the browser dialogs people work in and
-draws its findings on this sheet. The Apfel plugin carries a copy of Birne, so installing Apfel is
-enough for both. Birne is changed here only; the copy in Apfel follows, and a check in apfelkern
-turns red when the two drift apart.
+draws its findings on this sheet. The Apfel plugin carries the small Birne, black and white, as of
+version 1.1.0. The colour mode lives only here: install Birne next to Apfel if you want it.
 
 ## Under the hood
 

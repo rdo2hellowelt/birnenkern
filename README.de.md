@@ -82,8 +82,8 @@ Braucht Claude Code und einen Browser. Ohne DIN 1451 lädt das Blatt Barlow Semi
 ## Birne und Apfel
 
 [Apfel](https://github.com/rdo2hellowelt/apfelkern) prüft Arbeitsdialoge und zeichnet seine Befunde auf
-diesem Blatt. Das Plugin apfel trägt eine Kopie von Birne, wer Apfel hat, hat beide. Geändert wird nur
-hier; eine Prüfung in apfelkern wird rot, wenn die Kopie zurückbleibt.
+diesem Blatt. Das Plugin apfel trägt die kleine Birne, schwarz-weiß, Stand 1.1.0. Den Modus bunt gibt es nur
+hier: wer ihn will, lädt Birne zu Apfel dazu.
 
 ## Lizenz
 
