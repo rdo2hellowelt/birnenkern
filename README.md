@@ -75,6 +75,10 @@ a dog, a north star. The system is drawn as a house, the way architects do it: e
 doors are the allowed paths, figures are roles. Red is the path and the fault. Printed without colour it still
 reads: every colour turns to grey.
 
+| The same sheet without `modus('bunt')` | Contact sheet of the drafts |
+|---|---|
+| ![The same sheet in grey](docs/beispiel-bunt-grau.png) | ![Six drafts: elevation, floor plan, section, part, toolkit, brush sketch](docs/entwuerfe/bunt-kontaktabzug.png) |
+
 ## The sheet
 
 ```text

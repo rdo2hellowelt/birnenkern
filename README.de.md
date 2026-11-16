@@ -50,6 +50,10 @@ dick und dünn, Schraffur für Tiefe und Staffage dazu, also Bäume, Figuren, ei
 den Aufbau als Haus, wie im Bauwesen: Ansicht, Grundriss, Schnitt A–A und ein Werkstück. Figuren sind Rollen, Rot
 ist der Weg und die Störung. Ohne Farbe gedruckt bleibt alles lesbar, jede Farbe wird zu Grau.
 
+| Dasselbe Blatt ohne `modus('bunt')` | Kontaktabzug der Entwürfe |
+|---|---|
+| ![Dasselbe Blatt in Grau](docs/beispiel-bunt-grau.png) | ![Sechs Entwürfe: Ansicht, Grundriss, Schnitt, Werkstück, Baukasten, Scribble](docs/entwuerfe/bunt-kontaktabzug.png) |
+
 ## Befehle
 
 | Du tippst | Birne macht |
