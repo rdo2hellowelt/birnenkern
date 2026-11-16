@@ -2,10 +2,11 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap">
 <!-- Birne: Blatt nach DIN, Tusche auf Weiß. Zeichenwerkzeug nach „dimensional-drawing“, Copyright (c) 2026 Enes Ozturk, MIT-Lizenz (LICENSES/MIT-enesozturk-dimensional-drawing.txt). -->
 <style>
 /* Layout: ein Blatt wie eine Maßzeichnung (Rahmen mit Zonen · Draufsicht · Details · Zeitachse · Schnitt · Tabellen · Schriftfeld unten rechts), Tusche auf Weiß, bewusst nur hell. */
-:root{--paper:#ececec;--sheet:#ffffff;--ink:#111111;--ink2:#444444;--ink3:#7a7a7a;--fill:#f3f3f3;--fill2:#e6e6e6;--f:'DIN 1451 Mittelschrift','Alte DIN 1451 Mittelschrift','DIN Mittelschrift','DIN Alternate','Bahnschrift','Barlow Semi Condensed','Helvetica Neue',Arial,sans-serif;color-scheme:light}
+:root{--paper:#ececec;--sheet:#ffffff;--ink:#111111;--ink2:#444444;--ink3:#7a7a7a;--fill:#f3f3f3;--fill2:#e6e6e6;--f:'DIN 1451 Mittelschrift','Alte DIN 1451 Mittelschrift','DIN Mittelschrift','DIN Alternate','Bahnschrift','Barlow Semi Condensed','Helvetica Neue',Arial,sans-serif;--pinsel:'Yuji Syuku','Hiragino Mincho ProN','Yu Mincho',serif;color-scheme:light}
 body{background:var(--paper);color:var(--ink);font-family:var(--f);margin:0}
 .wrap{max-width:1760px;margin:0 auto;padding-block:24px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .scroll{overflow-x:auto;background:var(--sheet);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -61,6 +62,24 @@ svg rect{rx:0;ry:0}
 .sfl{font:400 6.5px var(--f);fill:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
 .sfv{font:400 8.5px var(--f);fill:var(--ink);letter-spacing:.04em;text-transform:uppercase}
 .sfb{font:400 12px var(--f);fill:var(--ink);letter-spacing:.1em;text-transform:uppercase}
+/* Modus bunt (Block BUNT): Tusche dick bis dünn, Akzent rot nur mit modus('bunt'), sonst Tusche */
+svg{--ak:var(--ink)}
+svg.bunt{--ak:#df4338}
+.k3{fill:none;stroke:var(--ink);stroke-width:2.6}
+.k2{fill:none;stroke:var(--ink);stroke-width:1.25}
+.k1{fill:none;stroke:var(--ink);stroke-width:.7}
+.k1h{fill:none;stroke:var(--ink);stroke-width:.55}
+.kh{fill:none;stroke:var(--ink);stroke-width:.4}
+.ka{fill:none;stroke:var(--ak);stroke-width:.85;stroke-dasharray:14 3 2 3}
+.kd{fill:none;stroke:var(--ink);stroke-width:.7;stroke-dasharray:4 3}
+.tt{font:700 18px var(--f);fill:var(--ink);letter-spacing:.07em;text-transform:uppercase}
+.tu{font:400 9.5px var(--f);fill:var(--ak);letter-spacing:.13em;text-transform:uppercase}
+.lb{font:700 9.5px var(--f);fill:var(--ink);letter-spacing:.12em;text-transform:uppercase}
+.lbk{font:400 9px var(--f);fill:var(--ink2);letter-spacing:.1em;text-transform:uppercase}
+.nsn{font:700 12px var(--f);fill:var(--ink)}
+.sa{font:700 20px var(--f);fill:var(--ak)}
+.pz{font-family:var(--pinsel);fill:var(--ink)}
+.wp{font:400 20px var(--f);fill:var(--ink);letter-spacing:.32em}
 </style>
 <div class="wrap">
   <div class="scroll"><svg id="sh1" viewBox="0 0 1700 1060" role="img" aria-label="Werkzeichnung, Beispiel erfunden: Probe Ende zu Ende der Ausleihe einer Stadtbibliothek im Rahmen mit Zonen. Draufsicht des Aufbaus mit Katalog-App, Gateway, Ausleih-API, Bestand, Journal und Ablage hinter der Sperre nach außen, Detail Sperre mit Regelfolge, Detail Ausleihe ohne Beleg, Zeitachse des 14.04. mit zwei Störungen, Schnitt durch Ausleihe und Rückgabe, Detail Wiederherstellen, Tabellen mit Schritten, Befunden und Tickets, Kennwerten und Quellen, allgemeine Hinweise und Schriftfeld unten rechts"></svg></div>
@@ -169,6 +188,178 @@ function tusche(){sv.querySelectorAll('rect').forEach(r=>{r.removeAttribute('rx'
 /* Erst zeichnen, wenn die Schrift da ist, sonst misst der Blocksatz mit der Ersatzschrift */
 function starten(fn){const F=document.fonts;
  (F&&F.load?Promise.all(["400 11px 'Barlow Semi Condensed'","700 13px 'Barlow Semi Condensed'"].map(s=>F.load(s).catch(()=>null))).then(()=>F.ready):Promise.resolve()).then(fn,fn)}
+
+/* ===== BUNT: unverändert lassen (Birne, Modus „Bunt und in Farbe“) ===== */
+/* Grund ist Schwarz-Weiß. modus('bunt') gleich nach rahmen() färbt an: Copic-Töne, rote Akzente. Ohne Aufruf zeichnen
+   dieselben Bausteine in Tusche und Grau. Zufall mit festem Keim: das Blatt sieht bei jedem Laden gleich aus. */
+let MOD='sw',BKEIM=7,BNR=0;
+const FARBE={rot:'#df4338',himmel:'#86bde3',salbei:'#9cc07e',gruen:'#5f9455',ocker:'#efb45f',warm:'#c9bcae',kuehl:'#aab4bf',ziegel:'#d0805c',rosa:'#f2a99a'};
+const TU='#111111',WS='#ffffff';
+function modus(m,keim){MOD=m==='bunt'?'bunt':'sw';if(keim!=null)BKEIM=keim;(sv.ownerSVGElement||sv).classList.toggle('bunt',MOD==='bunt')}
+/* Farbe im Modus: bunt wie angegeben, sonst als Grau gleicher Helligkeit (wie die neutralen Copic-Töne) */
+function farbe(c){if(MOD==='bunt'||!/^#[0-9a-f]{6}$/i.test(c))return c;const n=parseInt(c.slice(1),16),l=.299*(n>>16)+.587*(n>>8&255)+.114*(n&255);
+ const g=Math.min(225,Math.round(l*.75+50)).toString(16).padStart(2,'0');return '#'+g+g+g}
+function akzent(){return MOD==='bunt'?FARBE.rot:TU}
+function bz(){BKEIM=BKEIM+0x6D2B79F5|0;let t=Math.imul(BKEIM^BKEIM>>>15,1|BKEIM);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
+const BR=(a,b)=>a+(b-a)*bz(),BP=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+/* Filter (Tusche zittert, Pinsel franst, Marker läuft) und Erdreich, einmal je Blatt */
+function bdef(){const r=sv.ownerSVGElement||sv;let d=r.querySelector('defs.bunt');if(d)return d;if(!r.id)r.id='blatt'+(uid++);const id=r.id;
+ d=mk('defs',{class:'bunt','data-b':id},r);
+ [['wob',.035,2,1.7],['tro',.75,2,2.6],['cop',.5,1,1.6]].forEach(([n,bf,oc,sc],i)=>{const f=mk('filter',{id:n+id,x:'-5%',y:'-5%',width:'110%',height:'110%'},d);
+  mk('feTurbulence',{type:'fractalNoise',baseFrequency:bf,numOctaves:oc,seed:11+i*4,result:'n'},f);
+  mk('feDisplacementMap',{in:'SourceGraphic',in2:'n',scale:sc,xChannelSelector:'R',yChannelSelector:'G'},f)});
+ const pe=mk('pattern',{id:'erde'+id,width:14,height:14,patternUnits:'userSpaceOnUse'},d);
+ mk('path',{d:'M0,14 L14,0 M-3,3 L3,-3 M11,17 L17,11 M2,6 L6,2',class:'kh'},pe);mk('circle',{cx:9,cy:10,r:.7,fill:TU},pe);mk('circle',{cx:4,cy:11,r:.5,fill:TU},pe);
+ return d}
+function bu(n){return 'url(#'+n+bdef().getAttribute('data-b')+')'}
+/* Form als Clip: {r:[x,y,w,h]} | {k:[cx,cy,r]} | {d:'Pfad'} */
+function form(f){const d=bdef(),id='bf'+d.getAttribute('data-b')+'-'+(BNR++),cp=mk('clipPath',{id:id},d);let bb;
+ if(f.r){const[x,y,w,h]=f.r;mk('rect',{x:x,y:y,width:w,height:h},cp);bb={x:x,y:y,w:w,h:h}}
+ else if(f.k){const[cx,cy,r]=f.k;mk('circle',{cx:cx,cy:cy,r:r},cp);bb={x:cx-r,y:cy-r,w:2*r,h:2*r}}
+ else{mk('path',{d:f.d},cp);const t=mk('path',{d:f.d,fill:'none'}),b=t.getBBox();t.remove();bb={x:b.x,y:b.y,w:b.width,h:b.height}}
+ return{url:'url(#'+id+')',bb:bb}}
+function imClip(f,fn){const fo=form(f),keep=sv;sv=mk('g',{'clip-path':fo.url});fn();sv=keep}
+function erde(x,y,w,h){return mk('rect',{x:x,y:y,width:w,height:h,fill:bu('erde')})}
+/* Copic: Markerstriche, lasierend, übereinander dunkler; o: nib, op, schraeg, raus, luecke, lagen, quer, frei */
+function copic(f,c,o){o=o||{};const fo=form(f),bb=fo.bb,g=mk('g',{'clip-path':o.frei?null:fo.url,style:'mix-blend-mode:multiply'});
+ const nib=o.nib||9,sl=o.schraeg==null?.3:o.schraeg,over=o.raus==null?4:o.raus,lu=o.luecke||0;
+ const gg=mk('g',{filter:bu('cop'),stroke:farbe(c),'stroke-width':nib,'stroke-opacity':o.op||.5,fill:'none'},g);
+ for(let L=0;L<(o.lagen||1);L++){
+  if(o.quer){const dy=bb.w*sl;for(let y=bb.y-Math.max(0,dy)-nib;y<bb.y+bb.h+Math.max(0,-dy)+nib;y+=nib*(L?BR(1.7,2.8):BR(.72,.95))){if(L&&bz()<.35)continue;
+    const x1=bb.x-over+BR(0,lu)*bb.w,x2=bb.x+bb.w+over-BR(0,lu)*bb.w;mk('line',{x1:x1,y1:y,x2:x2,y2:y+(x2-x1)*sl},gg)}}
+  else{const dx=bb.h*sl;for(let x=bb.x-Math.max(0,dx)-nib;x<bb.x+bb.w+Math.max(0,-dx)+nib;x+=nib*(L?BR(1.7,2.8):BR(.72,.95))){if(L&&bz()<.35)continue;
+    const y1=bb.y-over+BR(0,lu)*bb.h,y2=bb.y+bb.h+over-BR(0,lu)*bb.h;mk('line',{x1:x+dx,y1:y1,x2:x,y2:y2},gg)}}}
+ return g}
+/* Schraffur in Tusche: der Abstand gibt die Tiefe; o: winkel, abstand, kreuz, bereich [x,y,w,h], k (Linienklasse) */
+function schraffur(f,o){o=o||{};const fo=form(f),bb=fo.bb;let g=mk('g',{'clip-path':fo.url});if(o.bereich){const fb=form({r:o.bereich});g=mk('g',{'clip-path':fb.url},g)}
+ const lage=w=>{const a=w*Math.PI/180,s=o.abstand||5,cx=bb.x+bb.w/2,cy=bb.y+bb.h/2,D=Math.hypot(bb.w,bb.h)/2+2,ux=Math.cos(a),uy=-Math.sin(a);
+  for(let t=-D;t<=D;t+=s*BR(.88,1.12)){const px=cx-uy*t,py=cy+ux*t;mk('line',{x1:px-ux*D,y1:py-uy*D,x2:px+ux*D,y2:py+uy*D,class:o.k||'kh'},g)}};
+ const w=o.winkel==null?45:o.winkel;lage(w);if(o.kreuz)lage(w+90);return g}
+function kurve(pts,N){N=N||12;const sp=[];for(let i=0;i<pts.length-1;i++){const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];
+ for(let j=0;j<N;j++){const t=j/N,t2=t*t,t3=t2*t;sp.push([0,1].map(k=>.5*(2*p1[k]+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3)))}}
+ sp.push(pts[pts.length-1].slice());return sp}
+function wolke(cx,cy,rx,ry,nb,amp){const off=BR(0,6.28),p=[];for(let i=0;i<nb;i++){const a=off+i/nb*6.2832+BR(-.1,.1),k=BR(.93,1.04);p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}
+ let d='M'+p[0][0].toFixed(1)+','+p[0][1].toFixed(1);
+ for(let i=0;i<nb;i++){const a=p[i],b=p[(i+1)%nb],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,vx=mx-cx,vy=my-cy,l=Math.hypot(vx,vy)||1,m=amp*BR(.75,1.3);
+  d+=' Q'+(mx+vx/l*m).toFixed(1)+','+(my+vy/l*m).toFixed(1)+' '+b[0].toFixed(1)+','+b[1].toFixed(1)}return d+'Z'}
+/* Baum in der Ansicht: rund, pappel oder nadel; Fußpunkt x, y, Höhe h */
+function baum(x,y,h,art){
+ if(art==='nadel'){const r=[],l=[];r.push([x,y-h]);for(let i=1;i<=4;i++){const yi=y-h+h*.8*i/4,wi=h*(.09+.17*i/4);r.push([x+wi,yi]);if(i<4)r.push([x+wi*.45,yi])}
+  r.forEach(p=>l.unshift([2*x-p[0],p[1]]));const d='M'+BP(r.concat(l.slice(0,-1)))+'Z';
+  mk('line',{x1:x,y1:y-h*.2,x2:x,y2:y,stroke:TU,'stroke-width':h*.04});
+  mk('path',{d:d,fill:WS});copic({d:d},FARBE.gruen,{nib:h*.12,op:.55,schraeg:.2,raus:2});
+  schraffur({d:d},{bereich:[x,y-h,h*.4,h],abstand:2.6,winkel:60});mk('path',{d:d,class:'k1',filter:bu('wob')});return}
+ const pap=art==='pappel',cy=pap?y-h*.56:y-h*.62,rx=pap?h*.13:h*.33,ry=pap?h*.42:h*.35;
+ const d=wolke(x,cy,rx,ry,pap?11:13,Math.min(rx,ry)*.22),tb=h*.028;
+ mk('path',{d:`M${x-tb},${y} L${x-tb*.4},${cy} L${x+tb*.4},${cy} L${x+tb},${y}Z`,fill:TU});
+ mk('path',{d:d,fill:WS});copic({d:d},FARBE.salbei,{nib:Math.max(5,rx*.34),op:.62,schraeg:.22,raus:2});
+ imClip({r:[x+rx*.05,cy-ry*.05,rx*1.3,ry*1.3]},()=>copic({d:d},FARBE.gruen,{nib:Math.max(4,rx*.3),op:.38,schraeg:.22,raus:2}));
+ schraffur({d:d},{bereich:[x+rx*.25,cy-ry*.3,rx,ry*1.5],abstand:2.6,winkel:50});
+ const gb=mk('g',{class:'k1',filter:bu('wob')});
+ [[-.45,-.1],[.38,-.28],[.02,-.55]].forEach(([a,b])=>mk('path',{d:`M${x},${cy+ry*.45} Q${x+rx*a*.3},${cy} ${x+rx*a},${cy+ry*b}`},gb));
+ mk('path',{d:d},gb)}
+/* Baum im Grundriss mit Schlagschatten */
+function baumPlan(x,y,r){const ds=wolke(x+r*.35,y+r*.35,r,r,12,r*.14);schraffur({d:ds},{abstand:2.4,winkel:45});
+ const d=wolke(x,y,r,r,12,r*.14);mk('path',{d:d,fill:WS});copic({d:d},FARBE.salbei,{nib:r*.42,op:.58,schraeg:.25});
+ imClip({r:[x,y-r*1.3,r*1.4,r*2.6]},()=>copic({d:d},FARBE.gruen,{nib:r*.35,op:.3}));
+ const g=mk('g',{class:'k1',filter:bu('wob')});mk('path',{d:d},g);
+ for(let i=0;i<6;i++){const a=i/6*6.283+BR(-.2,.2);mk('line',{x1:x,y1:y,x2:x+Math.cos(a)*r*.55,y2:y+Math.sin(a)*r*.55},g)}
+ mk('circle',{cx:x,cy:y,r:1.6,fill:TU})}
+/* Figur als Rolle, steht oder geht; c = Farbe des Mantels oder leer für Tusche; gibt die Hand zurück */
+function figur(x,y,h,pose,c,o){o=o||{};const d=o.dir||1,geht=pose==='geht',lean=geht?h*.035*d:0;
+ const hip=[x+lean*.4,y-h*.47],nk=[x+lean,y-h*.82],sw=h*.075;
+ const g=mk('g',{stroke:TU,'stroke-width':sw,'stroke-linecap':'round','stroke-linejoin':'round',fill:'none'});
+ const L=pts=>mk('polyline',{points:pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')},g);
+ if(geht){L([hip,[hip[0]+d*h*.09,y-h*.24],[x+d*h*.17,y]]);L([hip,[hip[0]-d*h*.03,y-h*.23],[x-d*h*.12,y-h*.015]])}
+ else{L([[hip[0]-h*.03,hip[1]],[x-h*.055,y]]);L([[hip[0]+h*.03,hip[1]],[x+h*.055,y]])}
+ const coat=`M${nk[0]-h*.085},${nk[1]+h*.015} L${nk[0]+h*.085},${nk[1]+h*.015} L${hip[0]+h*.105},${hip[1]+h*.09} L${hip[0]-h*.105},${hip[1]+h*.09}Z`;
+ if(c){mk('path',{d:coat,fill:WS});copic({d:coat},c,{nib:h*.1,op:.85,raus:2,schraeg:.15});mk('path',{d:coat,class:'k1'})}
+ else mk('path',{d:coat,fill:TU});
+ const g2=mk('g',{stroke:TU,'stroke-width':sw*.85,'stroke-linecap':'round','stroke-linejoin':'round',fill:'none'}),sh=[nk[0],nk[1]+h*.035];let hand;
+ if(geht){mk('polyline',{points:`${sh[0]},${sh[1]} ${sh[0]+d*h*.07},${y-h*.6} ${sh[0]+d*h*.12},${y-h*.5}`},g2);
+  mk('polyline',{points:`${sh[0]},${sh[1]} ${sh[0]-d*h*.06},${y-h*.6} ${sh[0]-d*h*.1},${y-h*.52}`},g2);hand=[sh[0]+d*h*.12,y-h*.5]}
+ else{[-1,1].forEach(s=>mk('polyline',{points:`${sh[0]+s*h*.06},${sh[1]} ${sh[0]+s*h*.085},${y-h*.6} ${sh[0]+s*h*.08},${y-h*.48}`},g2));hand=[sh[0]+h*.08,y-h*.48]}
+ mk('circle',{cx:nk[0]+lean*.4,cy:nk[1]-h*.075,r:h*.066,fill:TU});return hand}
+/* Figur von oben im Grundriss, a = Blickrichtung in Grad */
+function figurOben(x,y,s,a,c){const g=mk('g',{transform:`rotate(${a} ${x} ${y})`});
+ mk('ellipse',{cx:x,cy:y,rx:s*.5,ry:s*.22,fill:farbe(c||'#aab4bf'),'fill-opacity':.85,stroke:TU,'stroke-width':.7},g);mk('circle',{cx:x,cy:y,r:s*.17,fill:TU},g)}
+/* Hund mit Ringelschwanz; gibt das Halsband zurück. Leine von der Hand zum Halsband */
+function hund(x,y,s,d){d=d||1;const g=mk('g',{fill:TU});
+ mk('ellipse',{cx:x,cy:y-s*.5,rx:s*.42,ry:s*.22},g);mk('circle',{cx:x+d*s*.42,cy:y-s*.68,r:s*.19},g);
+ [-.28,-.17,.2,.3].forEach(k=>mk('line',{x1:x+k*s,y1:y-s*.4,x2:x+k*s,y2:y,stroke:TU,'stroke-width':s*.09,'stroke-linecap':'round'},g));
+ mk('path',{d:`M${x-d*s*.4},${y-s*.6} q${-d*s*.2},${-s*.22} ${-d*s*.02},${-s*.32}`,fill:'none',stroke:TU,'stroke-width':s*.08,'stroke-linecap':'round'},g);
+ return[x+d*s*.3,y-s*.66]}
+function leine(a,b){mk('path',{d:`M${a[0]},${a[1]} Q${(a[0]+b[0])/2},${Math.max(a[1],b[1])+9} ${b[0]},${b[1]}`,class:'k1'})}
+/* Nordstern: acht Spitzen, Nordspitze im Akzent */
+function nordstern(x,y,r){const g=mk('g',{});mk('circle',{cx:x,cy:y,r:r*.62,class:'k1'},g);mk('circle',{cx:x,cy:y,r:r*.55,class:'kh'},g);
+ for(let i=0;i<24;i++){const a=i/24*6.283;mk('line',{x1:x+Math.cos(a)*r*.55,y1:y+Math.sin(a)*r*.55,x2:x+Math.cos(a)*r*.62,y2:y+Math.sin(a)*r*.62,class:'kh'},g)}
+ const ray=(a,len,w,f1,f2)=>{const t=[x+Math.cos(a)*len,y+Math.sin(a)*len],l=[x+Math.cos(a-1.5708)*w,y+Math.sin(a-1.5708)*w],q=[x+Math.cos(a+1.5708)*w,y+Math.sin(a+1.5708)*w];
+  mk('path',{d:`M${x},${y} L${t} L${l}Z`,fill:f1,stroke:TU,'stroke-width':.8,'stroke-linejoin':'miter'},g);mk('path',{d:`M${x},${y} L${t} L${q}Z`,fill:f2,stroke:TU,'stroke-width':.8,'stroke-linejoin':'miter'},g)};
+ [45,135,225,315].forEach(a=>ray(a*Math.PI/180,r*.46,r*.09,WS,TU));
+ [0,90,180].forEach(a=>ray(a*Math.PI/180,r*.78,r*.13,TU,WS));ray(-Math.PI/2,r,r*.14,akzent(),WS);
+ tx(x,y-r-5,'N','nsn',{'text-anchor':'middle'},g)}
+/* Icons statt Emojis: abstrakt, 16er Raster, Tusche mit einem Element im Akzent.
+   ansicht, grundriss, schnitt, draufsicht, detail, zeit, werk, tabelle, nord, pinsel */
+function icon(n,x,y,s){const g=mk('g',{transform:`translate(${x},${y}) scale(${s/16})`});
+ const st={fill:'none',stroke:TU,'stroke-width':1.4,'vector-effect':'non-scaling-stroke'},P=(d,e)=>mk('path',Object.assign({d:d},st,e||{}),g),RT=akzent();
+ if(n==='ansicht'){P('M0,15 H16');P('M2,15 V7 L6,3 L10,7 V15');mk('rect',{x:11.5,y:6,width:3.5,height:9,fill:RT},g)}
+ else if(n==='grundriss'){P('M1,1 H15 V15 H1 Z',{'stroke-width':2.4});P('M1,8 H8');P('M8,8 A6,6 0 0 1 14,14',{'stroke-width':.8});mk('rect',{x:3,y:10,width:3,height:3,fill:RT},g)}
+ else if(n==='schnitt'){mk('path',{d:'M2,8 A6,6 0 0 1 14,8 Z',fill:TU},g);P('M2,8 A6,6 0 0 0 14,8');P('M0,8 H16');mk('path',{d:'M8,16 L4.5,11 H11.5 Z',fill:RT},g)}
+ else if(n==='draufsicht'){P('M1,1 H15 V15 H1 Z');P('M5,5 H11 V11 H5 Z');mk('circle',{cx:8,cy:8,r:1.7,fill:RT},g)}
+ else if(n==='detail'){P('M8,1.5 A6.5,6.5 0 1 1 7.9,1.5',{'stroke-dasharray':'2 1.6'});mk('circle',{cx:12.5,cy:12.5,r:3,fill:RT},g)}
+ else if(n==='zeit'){P('M0,11 H16');P('M3,9 V13 M8,9 V13 M13,9 V13',{'stroke-width':.9});mk('path',{d:'M8,2 L11,5 L8,8 L5,5 Z',fill:RT},g)}
+ else if(n==='werk'){P('M8,3 A5,5 0 1 1 7.9,3');P('M8,0 V16 M0,8 H16',{stroke:RT,'stroke-width':.9,'stroke-dasharray':'3 1.2 1 1.2'});mk('circle',{cx:8,cy:8,r:1.5,fill:TU},g)}
+ else if(n==='tabelle'){mk('rect',{x:1,y:1,width:14,height:3.5,fill:RT},g);P('M1,1 H15 V15 H1 Z');P('M1,4.5 H15 M1,8 H15 M1,11.5 H15 M6,1 V15',{'stroke-width':.8})}
+ else if(n==='nord'){P('M8,0 L10,8 L8,16 L6,8 Z');mk('path',{d:'M8,0 L10,8 L6,8 Z',fill:RT},g);P('M0,8 L8,6.5 L16,8 L8,9.5 Z',{'stroke-width':.8})}
+ else if(n==='pinsel'){mk('path',{d:'M1.5,14.5 C4,7 9,3 14.5,1.5 C12,5.5 8,10 2.5,15.5 Z',fill:TU},g);mk('circle',{cx:13,cy:13,r:2.2,fill:RT},g)}
+ return g}
+/* Titel: Icon, Copic-Streich hinter dem Wort, Doppellinie, Untertitel im Akzent; linksbündig ab x */
+function titel(x,y,ic,t,u,c){icon(ic,x,y-15,18);const T=tx(x+28,y,t,'tt'),w=T.getBBox().width;
+ /* Copic-Schwung UNTER dem Titel (nie durch die Schrift): dick, breiter als der Titel, leicht ansteigend */
+ const s=mk('path',{d:`M${x+14},${y+9} Q${x+28+w*.45},${y+12} ${x+48+w},${y+2}`,stroke:farbe(c||FARBE.rot),'stroke-width':15,'stroke-linecap':'round','stroke-opacity':.5,fill:'none',style:'mix-blend-mode:multiply',filter:bu('cop')});sv.insertBefore(s,T);
+ mk('line',{x1:x,y1:y+6,x2:x+34+w,y2:y+6,stroke:TU,'stroke-width':1.8});mk('line',{x1:x,y1:y+9.5,x2:x+34+w,y2:y+9.5,class:'k1'});
+ if(u)tx(x+28,y+22,u,'tu')}
+/* Fenster in der Ansicht: Glas in Blau, Laibung schraffiert, Sprossen, Bank */
+function fenster(x,y,w,h,o){o=o||{};mk('rect',{x:x,y:y,width:w,height:h,fill:WS});copic({r:[x,y,w,h]},FARBE.himmel,{nib:Math.min(8,w*.4),op:.5,schraeg:.4,raus:0});
+ schraffur({r:[x,y,w,3.2]},{abstand:1.7});schraffur({r:[x,y,3.2,h]},{abstand:1.7});
+ const g=mk('g',{class:'k1'});mk('rect',{x:x,y:y,width:w,height:h},g);const n=o.sprossen||2;
+ for(let i=1;i<n;i++)mk('line',{x1:x+w*i/n,y1:y,x2:x+w*i/n,y2:y+h},g);mk('line',{x1:x,y1:y+h*.4,x2:x+w,y2:y+h*.4},g);
+ mk('line',{x1:x-2,y1:y+h+1.5,x2:x+w+2,y2:y+h+1.5,class:'k2'})}
+/* Maßkette wie in der Architektur, mit Schrägstrich; xs Achsen, y Kette, e Bezugskante, texte je Feld */
+function massKette(xs,y,e,texte){mk('line',{x1:xs[0]-6,y1:y,x2:xs[xs.length-1]+6,y2:y,class:'k1'});
+ xs.forEach(x=>{mk('line',{x1:x,y1:e+3,x2:x,y2:y+4,class:'kh'});mk('line',{x1:x-3,y1:y+3,x2:x+3,y2:y-3,stroke:TU,'stroke-width':1.3})});
+ texte.forEach((l,i)=>tx((xs[i]+xs[i+1])/2,y-4,l,'dt',{'text-anchor':'middle'}))}
+/* Höhenkote: Dreieck halb schwarz, Bezugslinie gestrichelt bis bis */
+function kote(x,y,t,bis){mk('line',{x1:x-6,y1:y,x2:bis||x+40,y2:y,class:'kd'});mk('path',{d:`M${x-5},${y-8} L${x+5},${y-8} L${x},${y}Z`,class:'k1',fill:WS});mk('path',{d:`M${x},${y-8} L${x+5},${y-8} L${x},${y}Z`,fill:TU});tx(x+9,y-3,t,'lbk')}
+/* Positionsnummer im Kreis mit Hinweislinie zum Punkt px, py */
+function ballon(n,x,y,px,py){const a=Math.atan2(py-y,px-x);mk('line',{x1:x+Math.cos(a)*9,y1:y+Math.sin(a)*9,x2:px,y2:py,class:'k1'});mk('circle',{cx:px,cy:py,r:1.6,fill:TU});
+ mk('circle',{cx:x,cy:y,r:9,fill:WS,stroke:TU,'stroke-width':.9});tx(x,y+3.5,String(n),'lb',{'text-anchor':'middle'})}
+/* Maßstabsleiste; Zahlen nur mit teile (belegt), sonst nur das Wort */
+function massstab(x,y,t,teile){const n=teile?teile.length-1:4;for(let i=0;i<n;i++){mk('rect',{x:x+i*16,y:y,width:16,height:4,fill:i%2?WS:TU});mk('rect',{x:x+i*16,y:y,width:16,height:4,class:'k1'})}
+ if(teile)teile.forEach((l,i)=>tx(x+i*16,y+13,l,'lbk',{'text-anchor':'middle'}));tx(x,y-5,t,'lbk')}
+/* Schnittlinie mit Buchstaben; seite = Blickrichtung quer zur Linie (1 oder -1) */
+function schnittlinie(x1,y1,x2,y2,b,seite){seite=seite||1;const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L,nx=-uy*seite,ny=ux*seite,K=akzent();
+ mk('line',{x1:x1,y1:y1,x2:x2,y2:y2,class:'ka'});
+ [[x1,y1,1],[x2,y2,-1]].forEach(([x,y,s])=>{mk('line',{x1:x-ux*s*6,y1:y-uy*s*6,x2:x+ux*s*12,y2:y+uy*s*12,stroke:K,'stroke-width':3});
+  const ex=x+ux*s*3,ey=y+uy*s*3;mk('path',{d:`M${ex+nx*14},${ey+ny*14} L${ex+nx*5+ux*4},${ey+ny*5+uy*4} L${ex+nx*5-ux*4},${ey+ny*5-uy*4}Z`,fill:K});
+  tx(ex+nx*24,ey+ny*24+6,b,'sa',{'text-anchor':'middle'})})}
+/* Weg im Akzent mit Pfeil; strich = gestrichelt (Rückweg) */
+function weg(pts,o){o=o||{};return mk('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:akzent(),'stroke-width':o.w||2.2,'stroke-linejoin':'round','stroke-dasharray':o.strich?'7 4':null,'marker-end':A})}
+/* Pinsel: Druck an, voll, auslaufen; trockene Haare (Kasure) am Ende; o: an, ab, ende, kasure, farbe, op, n */
+function pinsel(pts,w,o){o=o||{};const sp=kurve(pts,o.n||12),m=sp.length,an=o.an==null?.1:o.an,ab=o.ab==null?.45:o.ab,end=o.ende==null?.12:o.ende;
+ const wd=[],nv=[];for(let i=0;i<m;i++){const t=i/(m-1);const f=t<an?.3+.7*Math.sin(t/an*1.5708):t>1-ab?end+(1-end)*Math.cos((t-(1-ab))/ab*1.5708):1;wd.push(w*f*(1+BR(-.08,.08)));
+  const a=sp[Math.max(0,i-1)],b=sp[Math.min(m-1,i+1)],dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;nv.push([-dy/l,dx/l])}
+ const L=sp.map((p,i)=>[p[0]+nv[i][0]*wd[i]/2,p[1]+nv[i][1]*wd[i]/2]),Q=sp.map((p,i)=>[p[0]-nv[i][0]*wd[i]/2,p[1]-nv[i][1]*wd[i]/2]).reverse();
+ const g=mk('g',{filter:bu('tro')});mk('path',{d:'M'+BP(L)+' L'+BP(Q)+'Z',fill:o.farbe?farbe(o.farbe):TU,'fill-opacity':o.op||.94},g);
+ for(let s=0;s<(o.kasure==null?3:o.kasure);s++){const off=BR(-.34,.34),st=Math.floor(m*BR(.4,.7)),pp=[];for(let i=st;i<m;i++)pp.push([sp[i][0]+nv[i][0]*off*wd[i],sp[i][1]+nv[i][1]*off*wd[i]]);
+  if(pp.length>1)mk('polyline',{points:pp.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:'none',stroke:WS,'stroke-width':BR(.5,1.3),'stroke-linecap':'round'},g)}
+ return g}
+/* Ensō: Kreis in einem Zug, offen; Mitte cx, cy, Radius r, Pinselbreite w */
+function enso(cx,cy,r,w){const p=[];for(let i=0;i<=14;i++){const a=2.45+i/14*5.35,k=1+BR(-.025,.025);p.push([cx+Math.cos(a)*r*k,cy+Math.sin(a)*r*k])}
+ return pinsel(p,w||r*.17,{an:.05,ab:.55,ende:.05,kasure:6,n:10})}
+/* Siegel (Hanko) im Akzent und senkrechte Schrift, Zeichen von oben nach unten */
+function siegel(x,y,s,z){const g=mk('g',{filter:bu('tro')});mk('rect',{x:x-s/2,y:y-s/2,width:s,height:s,fill:akzent()},g);tx(x,y+s*.27,z,'pz',{'text-anchor':'middle','font-size':s*.7,style:'fill:'+WS},g)}
+function senkrecht(x,y,t,s){Array.from(t).forEach((c,i)=>tx(x,y+i*s*1.2,c,'pz',{'text-anchor':'middle','font-size':s}))}
 
 /* ===== ZEICHNUNG: je Blatt neu. Beispiel (erfunden): Probe Ende zu Ende, Ausleihe einer Stadtbibliothek, Rev B ===== */
 const TK='https://example.org/tickets/',L=id=>({t:id,href:TK+id});

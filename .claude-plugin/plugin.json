@@ -1,7 +1,7 @@
 {
   "name": "birne",
-  "description": "Zeichnet einen Zusammenhang als technisches Blatt nach DIN, Tusche auf Weiß: Rahmen mit Zonen, Schriftfeld unten rechts, Linienarten statt Farbe, Draufsicht, Schnitt, Detail, Zeitachse und Tabellen.",
-  "version": "1.1.0",
+  "description": "Zeichnet einen Zusammenhang als technisches Blatt nach DIN, Tusche auf Weiß: Rahmen mit Zonen, Schriftfeld unten rechts, Linienarten statt Farbe, Draufsicht, Schnitt, Detail, Zeitachse und Tabellen. Auf Wunsch bunt und in Farbe: Copic, Staffage, Ansicht, Grundriss, Schnitt, Werkstück.",
+  "version": "1.2.0",
   "author": {
     "name": "Hans M."
   },
@@ -11,5 +11,5 @@
   "homepage": "https://github.com/rdo2hellowelt/birnenkern",
   "repository": "https://github.com/rdo2hellowelt/birnenkern",
   "license": "MIT",
-  "keywords": ["drawing", "din", "technical-drawing", "diagram", "svg", "deutsch"]
+  "keywords": ["drawing", "din", "technical-drawing", "diagram", "svg", "architecture", "deutsch"]
 }

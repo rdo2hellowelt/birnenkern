@@ -33,4 +33,14 @@ Was Birne aus den Normen übernimmt, als Gedächtnisstütze. Die Normtexte selbs
 ## Tusche
 
 - Kanten leicht über die Ecken hinaus gezogen, wie mit Reißfeder und Lineal: `tusche()`.
-- Keine Rundungen, keine Farbe, keine Schatten.
+- Keine Rundungen, keine Farbe, keine Schatten. Im Modus bunt kommen Copic, Schraffur für Tiefe und Schlagschatten
+  dazu, die Linienarten bleiben.
+
+## Bauzeichnungen, DIN 1356-1 (Modus bunt)
+
+- Ansicht, Grundriss und Schnitt als Grundformen. Der Grundriss ist ein waagrechter Schnitt in Brüstungshöhe, von oben
+  gesehen; geschnittene Wände breit und geschwärzt, Türen mit Aufschlag, Fenster mit Laibung.
+- Schnittverlauf im Grundriss mit Kennbuchstaben und Blickrichtung, der Schnitt trägt dieselben Buchstaben.
+- Höhen als Koten mit Dreieck, Bezug ±0 am Fußboden. Nordpfeil im Grundriss.
+- Maßketten mit Schrägstrich statt Pfeil; in der Werkzeichnung (Maschinenbau) bleibt der Pfeil.
+- Staffage (Figuren, Bäume) gibt Maßstab, sie gehört nicht zum Bauwerk.

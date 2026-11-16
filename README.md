@@ -62,7 +62,18 @@ matters, one spot enlarged, and a timeline underneath.
 | thin dash-dot | section line, centre line |
 | thin with arrow | flow, dimension |
 
-Grey only, light only. The sheet prints on A3 landscape.
+Grey only, light only. The sheet prints on A3 landscape. Colour only when you ask for it, see below.
+
+## Bunt und in Farbe
+
+![The same test in colour mode: the library drawn as a house, with elevation, floor plan, section and part](docs/beispiel-bunt.png)
+
+Black and white is the ground. Say `birne bunt` and the sheet gets marker accents (Copic), icons in front of the
+titles instead of emojis, thick and thin ink, hatching for depth, and some life: trees, figures standing and walking,
+a dog, a north star. The system is drawn as a house, the way architects do it: elevation (*Ansicht*), floor plan
+(*Grundriss*), section A–A (*Schnitt*) and one part as a workshop drawing (*Werkstück*). Walls are the boundary,
+doors are the allowed paths, figures are roles. Red is the path and the fault. Printed without colour it still
+reads: every colour turns to grey.
 
 ## The sheet
 
@@ -94,6 +105,7 @@ like a ruling pen. Text set justified.
 | `birne <subject>, material in <file>` | Draws the sheet, looks at it once, fixes it once, opens it |
 | `zeichne das als Blatt` | Same, from any conversation |
 | `technisches Blatt auf Englisch …` | Sheet in English |
+| `birne bunt …` | Sheet in colour mode, with `modus('bunt')` |
 
 The sheet lands as `birne-<topic>-<date>.html` in the working folder and opens in the browser.
 
@@ -137,12 +149,13 @@ turns red when the two drift apart.
 ```text
 birnenkern/
 ├─ .claude-plugin/        plugin.json · marketplace.json · icon.png
-├─ docs/                  example sheet for this README, icon source
+├─ docs/                  example sheets for this README, icon source, drafts of the colour mode
 └─ skills/birne/
    ├─ SKILL.md            when · steps · the sheet · lines · text · content · toolkit
-   ├─ assets/             blatt-vorlage.html: toolkit, sheet, and the made-up example
-   ├─ references/din.md   the norms in short
-   ├─ evals/evals.json    8 test cases: when it triggers, when it doesn't
+   ├─ assets/             blatt-vorlage.html: toolkit, sheet, colour mode, made-up example
+   │                      beispiel-bunt.html: the same example in colour mode
+   ├─ references/din.md   the norms in short, building drawings included
+   ├─ evals/evals.json    10 test cases: when it triggers, when it doesn't
    ├─ QUELLEN.md          origin, license and changes
    └─ LICENSE · LICENSES/
 ```
@@ -150,7 +163,8 @@ birnenkern/
 ## Thanks
 
 The drawing toolkit follows [dimensional-drawing](https://github.com/enesozturk/dimensional-drawing)
-by enesozturk (MIT), in `skills/birne/LICENSES/`. Frame, title block, justification and ink are Birne's own.
+by enesozturk (MIT), in `skills/birne/LICENSES/`. Frame, title block, justification, ink and the colour mode are Birne's own. The brush lettering uses
+Yuji Syuku from Google Fonts (SIL Open Font License).
 
 ## License
 

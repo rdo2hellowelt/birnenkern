@@ -48,6 +48,18 @@
       "prompt": "birne: Projektstand Umzug der Datenbank, Tickets DB-12 bis DB-19, Wartezeit beim Betrieb ohne Datum",
       "expected_output": "Skill greift. Stand mit Wartepunkten, Tickets in der Tabelle, offene Schritte mit Strich-Punkt. Was ohne Datum oder Beleg ist, kommt ohne Zahl aufs Blatt; nichts wird geschätzt oder erfunden. Keine Selbstkorrektur auf dem Blatt.",
       "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "birne bunt und in Farbe: Aufbau unseres Shops mit Bezahlweg, Stoff in docs/architektur.md",
+      "expected_output": "Skill greift. Ruft modus('bunt') gleich nach rahmen() auf, nimmt assets/beispiel-bunt.html als Muster. Das Blatt hat Ansicht, Grundriss mit Nordstern und Schnittlinie A–A, Schnitt A–A entlang des Bezahlwegs und ein Werkstück; Titel mit titel() und Icon, keine Emojis. Figuren sind Rollen, keine Namen. Rot nur für Weg und Störung, Störungen zusätzlich schraffiert. Zahlen nur aus docs/architektur.md, die Legende sagt, dass das Haus ein Bild ist. Blöcke WERKZEUG, BLATT und BUNT unverändert.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "Mach mir ein buntes Dashboard mit den Kennzahlen der Woche",
+      "expected_output": "Birne greift nicht, obwohl bunt fällt: Dashboards und Zahlenreihen sind ausgeschlossen. Verweis auf ein Werkzeug für Dashboards.",
+      "files": []
     }
   ]
 }

@@ -41,6 +41,15 @@ Dazu Rahmen mit Zonen und Mittenmarken (DIN EN ISO 5457), kleines Schriftfeld un
 (DIN EN ISO 7200), Linienarten statt Farbe (DIN EN ISO 128), Beschriftung in DIN 1451, Kanten leicht
 überzeichnet, Texte im Blocksatz. Nur Grau, nur hell, druckt auf A3 quer.
 
+## Bunt und in Farbe
+
+![Dieselbe Probe im Modus bunt: die Bibliothek als Haus mit Ansicht, Grundriss, Schnitt und Werkstück](docs/beispiel-bunt.png)
+
+Grund ist Schwarz-Weiß. Wer Farbe will, sagt `birne bunt`: dann kommen Copic-Akzente, Icons vor den Titeln, Tusche
+dick und dünn, Schraffur für Tiefe und Staffage dazu, also Bäume, Figuren, ein Hund und ein Nordstern. Das Blatt zeigt
+den Aufbau als Haus, wie im Bauwesen: Ansicht, Grundriss, Schnitt A–A und ein Werkstück. Figuren sind Rollen, Rot
+ist der Weg und die Störung. Ohne Farbe gedruckt bleibt alles lesbar, jede Farbe wird zu Grau.
+
 ## Befehle
 
 | Du tippst | Birne macht |
@@ -49,6 +58,7 @@ Dazu Rahmen mit Zonen und Mittenmarken (DIN EN ISO 5457), kleines Schriftfeld un
 | `birne <thema>, Stoff in <datei>` | zeichnet, sieht einmal hin, bessert einmal nach, öffnet das Blatt |
 | `zeichne das als Blatt` | dasselbe aus jedem Gespräch |
 | `technisches Blatt auf Englisch …` | Blatt auf Englisch, mit `sprache('en')` |
+| `birne bunt …` | Blatt im Modus „Bunt und in Farbe“, mit `modus('bunt')` |
 
 Das Blatt landet als `birne-<thema>-<datum>.html` im Arbeitsordner und öffnet sich im Browser.
 
