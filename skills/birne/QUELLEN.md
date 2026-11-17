@@ -32,6 +32,8 @@ diff <(sed -e '1d' -e '/aria-label=/d' -e '/===== ZEICHNUNG/,$d' blatt-vorlage.h
 
 ## Änderungen
 
+- **17.11.2026, ohne neue Fassung.** Unser eigenes Deployment als Blatt in `docs/deployment/`: schwarz-weiß,
+  bunt als Haus und als Entwurf eines zweiten Bilds im Modus bunt, ein Allrad-Antriebsstrang. Der Skill bleibt unverändert.
 - **16.11.2026, 1.2.0.** Modus „Bunt und in Farbe“: `modus('bunt')` gleich nach `rahmen()`, Grund bleibt
   Schwarz-Weiß. Block BUNT mit Copic, Schraffur, Erdreich, Bäumen, Figuren als Rollen, Hund, Nordstern, zehn Icons,
   Titel mit Icon, Fenster, Schnittlinie, Weg, Maßkette, Koten, Positionsnummern, Pinsel, Ensō und Siegel. Ohne Modus

@@ -79,6 +79,19 @@ reads: every colour turns to grey.
 |---|---|
 | ![The same sheet in grey](docs/beispiel-bunt-grau.png) | ![Six drafts: elevation, floor plan, section, part, toolkit, brush sketch](docs/entwuerfe/bunt-kontaktabzug.png) |
 
+## Our own deployment, three ways
+
+How Birne and Apfel reach you, drawn by Birne itself: push to main, GitHub carries both repos, `/plugin install`
+brings them home. Every number comes from `git log`, the GitHub Actions runs or `plugin.json`. Black and white is
+the ground; the house is the colour mode as it ships; the all-wheel drivetrain on the rolling road is a draft for a
+second picture in the colour mode (engine = push, centre lock = the Birne check pinned to 1.1.0, two axles = two repos).
+
+| Black and white | Colour, as a house | Colour, as a drivetrain (draft) |
+|---|---|---|
+| ![Deployment in black and white: plan view, details, timeline, section](docs/deployment/deployment-schwarz-weiss.png) | ![Deployment as a house: floor plan, elevation, section, part](docs/deployment/deployment-haus.png) | ![Deployment as an all-wheel drivetrain on a rolling road](docs/deployment/deployment-fahrzeug.png) |
+
+The sheets themselves are in `docs/deployment/` as HTML.
+
 ## The sheet
 
 ```text
@@ -152,7 +165,8 @@ version 1.1.0. The colour mode lives only here: install Birne next to Apfel if y
 ```text
 birnenkern/
 ├─ .claude-plugin/        plugin.json · marketplace.json · icon.png
-├─ docs/                  example sheets for this README, icon source, drafts of the colour mode
+├─ docs/                  example sheets for this README, icon source, drafts of the colour mode,
+│                         deployment/: our own deployment in black and white and in colour
 └─ skills/birne/
    ├─ SKILL.md            when · steps · the sheet · lines · text · content · toolkit
    ├─ assets/             blatt-vorlage.html: toolkit, sheet, colour mode, made-up example

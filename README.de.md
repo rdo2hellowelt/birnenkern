@@ -54,6 +54,20 @@ ist der Weg und die Störung. Ohne Farbe gedruckt bleibt alles lesbar, jede Farb
 |---|---|
 | ![Dasselbe Blatt in Grau](docs/beispiel-bunt-grau.png) | ![Sechs Entwürfe: Ansicht, Grundriss, Schnitt, Werkstück, Baukasten, Scribble](docs/entwuerfe/bunt-kontaktabzug.png) |
 
+## Unser eigenes Deployment, dreimal
+
+Wie Birne und Apfel zum Nutzer kommen, von Birne selbst gezeichnet: Push auf main, GitHub trägt beide Repos,
+`/plugin install` holt sie. Jede Zahl stammt aus `git log`, den Läufen in GitHub Actions oder aus `plugin.json`.
+Grund ist Schwarz-Weiß. Das Haus ist der Modus bunt, wie er ausgeliefert wird. Der Allrad-Antriebsstrang auf dem
+Rollenprüfstand ist ein Entwurf für ein zweites Bild im Modus bunt (Motor = Push, Mittensperre = Abgleich fest auf
+1.1.0, zwei Achsen = zwei Repos).
+
+| Schwarz-Weiß | Bunt, als Haus | Bunt, als Antriebsstrang (Entwurf) |
+|---|---|---|
+| ![Deployment schwarz-weiß: Draufsicht, Details, Zeitachse, Schnitt](docs/deployment/deployment-schwarz-weiss.png) | ![Deployment als Haus: Grundriss, Ansicht, Schnitt, Werkstück](docs/deployment/deployment-haus.png) | ![Deployment als Allrad-Antriebsstrang auf dem Rollenprüfstand](docs/deployment/deployment-fahrzeug.png) |
+
+Die Blätter selbst liegen als HTML in `docs/deployment/`.
+
 ## Befehle
 
 | Du tippst | Birne macht |

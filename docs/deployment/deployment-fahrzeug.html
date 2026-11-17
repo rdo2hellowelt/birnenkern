@@ -1,0 +1,574 @@
+<title>Deployment als Fahrzeug</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap">
+<!-- Birne: Blatt nach DIN, Tusche auf Weiß. Zeichenwerkzeug nach „dimensional-drawing“, Copyright (c) 2026 Enes Ozturk, MIT-Lizenz (LICENSES/MIT-enesozturk-dimensional-drawing.txt). -->
+<style>
+/* Layout: ein Blatt wie eine Maßzeichnung (Rahmen mit Zonen · Draufsicht · Details · Zeitachse · Schnitt · Tabellen · Schriftfeld unten rechts), Tusche auf Weiß, bewusst nur hell. */
+:root{--paper:#ececec;--sheet:#ffffff;--ink:#111111;--ink2:#444444;--ink3:#7a7a7a;--fill:#f3f3f3;--fill2:#e6e6e6;--f:'DIN 1451 Mittelschrift','Alte DIN 1451 Mittelschrift','DIN Mittelschrift','DIN Alternate','Bahnschrift','Barlow Semi Condensed','Helvetica Neue',Arial,sans-serif;--pinsel:'Yuji Syuku','Hiragino Mincho ProN','Yu Mincho',serif;color-scheme:light}
+body{background:var(--paper);color:var(--ink);font-family:var(--f);margin:0}
+.wrap{max-width:1760px;margin:0 auto;padding-block:24px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.scroll{overflow-x:auto;background:var(--sheet);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+svg{display:block;width:100%;height:auto}
+@media (max-width:700px){svg{min-width:1100px}}
+/* Zeichnung */
+.border{fill:none;stroke:var(--ink);stroke-width:1.2}
+.obj{fill:var(--sheet);stroke:var(--ink);stroke-width:1.3;stroke-linejoin:round}
+.obj1{fill:var(--sheet);stroke:var(--ink);stroke-width:1}
+.well{fill:var(--fill);stroke:var(--ink);stroke-width:1}
+.slot{fill:var(--sheet);stroke:var(--ink2);stroke-width:.8;stroke-dasharray:4 3}
+.hug{fill:var(--fill2);stroke:var(--ink);stroke-width:1}
+.thin{fill:none;stroke:var(--ink);stroke-width:.8}
+.ph{fill:none;stroke:var(--ink3);stroke-width:.8;stroke-dasharray:14 3 3 3}
+.cl{fill:none;stroke:var(--ink3);stroke-width:.7;stroke-dasharray:16 3 2 3}
+.cut{fill:none;stroke:var(--ink);stroke-width:2}
+.dl{stroke:var(--ink);stroke-width:.7;fill:none}
+.ext{stroke:var(--ink);stroke-width:.55;fill:none}
+.arrow{fill:var(--ink)}
+.hl{stroke:var(--ink2);stroke-width:.7}
+.hs{stroke:var(--ink);stroke-width:.8}
+.vor{fill:var(--sheet);stroke:var(--ink);stroke-width:1;stroke-dasharray:10 3 2 3}
+.dt{font:400 11px var(--f);fill:var(--ink);paint-order:stroke;stroke:var(--sheet);stroke-width:4px;stroke-linejoin:round}
+.dts{font:400 9.5px var(--f);fill:var(--ink2);letter-spacing:.06em;text-transform:uppercase;paint-order:stroke;stroke:var(--sheet);stroke-width:3px}
+.sl{font:400 9px var(--f);fill:var(--ink2);letter-spacing:.08em;text-transform:uppercase}
+.slk{font:400 9px var(--f);fill:var(--ink);letter-spacing:.08em;text-transform:uppercase;paint-order:stroke;stroke:var(--sheet);stroke-width:3px;stroke-linejoin:round}
+.nt{font:400 11.5px var(--f);fill:var(--ink);letter-spacing:.06em;text-transform:uppercase}
+.nth{font:700 13px var(--f);fill:var(--ink);letter-spacing:.06em}
+.vt{font:400 12px var(--f);fill:var(--ink);letter-spacing:.1em;text-transform:uppercase}
+.vtb{font:400 20px var(--f);fill:var(--ink);letter-spacing:.06em}
+.nb{fill:var(--sheet);stroke:var(--ink);stroke-width:.9}
+.nbt{font:400 9.5px var(--f);fill:var(--ink)}
+.lead{stroke:var(--ink);stroke-width:.7;fill:none}
+.dot{fill:var(--ink)}
+.th{font:400 10.5px var(--f);fill:var(--ink);letter-spacing:.05em;text-transform:uppercase}
+.tc{font:400 10.5px var(--f);fill:var(--ink)}
+a text{text-decoration:underline}
+a:focus-visible text{font-weight:700}
+/* Druck: ein Blatt A3 quer zum Aufhängen */
+@media print{
+ @page{size:A3 landscape;margin:7mm}
+ body{background:#fff}
+ .wrap{max-width:none;padding:0}
+ .scroll{box-shadow:none;overflow:visible;break-inside:avoid}
+ .scroll svg{width:86%;min-width:0;margin:0 auto}
+}
+/* Tusche: eckig, überzeichnete Kanten, Zonen am Rand, Schriftfeld nach DIN EN ISO 7200 */
+svg rect{rx:0;ry:0}
+.os{stroke:var(--ink);fill:none;stroke-linecap:round}
+.zn{font:400 9px var(--f);fill:var(--ink2);letter-spacing:.08em}
+.sf{fill:none;stroke:var(--ink);stroke-width:.6}
+.sfo{fill:none;stroke:var(--ink);stroke-width:1.2}
+.sfl{font:400 6.5px var(--f);fill:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.sfv{font:400 8.5px var(--f);fill:var(--ink);letter-spacing:.04em;text-transform:uppercase}
+.sfb{font:400 12px var(--f);fill:var(--ink);letter-spacing:.1em;text-transform:uppercase}
+/* Modus bunt (Block BUNT): Tusche dick bis dünn, Akzent rot nur mit modus('bunt'), sonst Tusche */
+svg{--ak:var(--ink)}
+svg.bunt{--ak:#df4338}
+.k3{fill:none;stroke:var(--ink);stroke-width:2.6}
+.k2{fill:none;stroke:var(--ink);stroke-width:1.25}
+.k1{fill:none;stroke:var(--ink);stroke-width:.7}
+.k1h{fill:none;stroke:var(--ink);stroke-width:.55}
+.kh{fill:none;stroke:var(--ink);stroke-width:.4}
+.ka{fill:none;stroke:var(--ak);stroke-width:.85;stroke-dasharray:14 3 2 3}
+.kd{fill:none;stroke:var(--ink);stroke-width:.7;stroke-dasharray:4 3}
+.tt{font:700 18px var(--f);fill:var(--ink);letter-spacing:.07em;text-transform:uppercase}
+.tu{font:400 9.5px var(--f);fill:var(--ak);letter-spacing:.13em;text-transform:uppercase}
+.lb{font:700 9.5px var(--f);fill:var(--ink);letter-spacing:.12em;text-transform:uppercase}
+.lbk{font:400 9px var(--f);fill:var(--ink2);letter-spacing:.1em;text-transform:uppercase}
+.nsn{font:700 12px var(--f);fill:var(--ink)}
+.sa{font:700 20px var(--f);fill:var(--ak)}
+.pz{font-family:var(--pinsel);fill:var(--ink)}
+.wp{font:400 20px var(--f);fill:var(--ink);letter-spacing:.32em}
+</style>
+<div class="wrap">
+  <div class="scroll"><svg id="sh1" viewBox="0 0 1700 1060" role="img" aria-label="Werkzeichnung im Modus bunt: Deployment von Birne und Apfel als Allrad-Antriebsstrang. Draufsicht mit Motor als Push, Getriebe als main, Mittensperre als Birne-Abgleich, Vorderachse birnenkern, Hinterachse apfelkern. Seitenansicht auf dem Rollenprüfstand. Schnitt A–A mit dem Kraftfluss eines Release und dem Reserverad als Sicherung. Typenschild Ref 7ccea9d. Zeitachse 08. bis 17.11.2026, Tabellen und Schriftfeld"></svg></div>
+</div>
+
+<script>
+(function(){
+/* ===== WERKZEUG: unverändert lassen ===== */
+const NS='http://www.w3.org/2000/svg';let sv,A,HAT,uid=0;
+function mk(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)if(a[k]!=null)e.setAttribute(k,a[k]);(p||sv).appendChild(e);return e}
+function tx(x,y,s,c,a,p){const t=mk('text',Object.assign({x:x,y:y,class:c||'dt'},a||{}),p);t.textContent=s;return t}
+function rr(x,y,w,h,r,c){return mk('rect',{x:x,y:y,width:w,height:h,rx:r,class:c})}
+function hat(x,y,w,h,r){const e=mk('rect',{x:x,y:y,width:w,height:h,rx:r||0,class:'hs'});e.setAttribute('fill',HAT);return e}
+function begin(id){sv=document.getElementById(id);sv.innerHTML='';const n=uid++;const d=mk('defs',{});
+ const m=mk('marker',{id:'ar'+n,viewBox:'0 0 10 10',refX:10,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'},d);mk('path',{d:'M0,1.7 L10,5 L0,8.3 z',class:'arrow'},m);
+ const pt=mk('pattern',{id:'hat'+n,width:5,height:5,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},d);mk('line',{x1:0,y1:0,x2:0,y2:5,class:'hl'},pt);
+ A='url(#ar'+n+')';HAT='url(#hat'+n+')';rr(20,20,1660,1020,16,'border')}
+function ar(x1,y1,x2,y2,c){return mk('line',{x1:x1,y1:y1,x2:x2,y2:y2,class:c||'dl','marker-end':A})}
+function dimH(x1,x2,y,e1,e2,l,o){o=o||{};[[x1,e1],[x2,e2]].forEach(([x,e])=>{if(e==null)return;const s=Math.sign(y-e)||1;mk('line',{x1:x,y1:e+s*3,x2:x,y2:y+s*5,class:'ext'})});
+ if(x2-x1>=28)mk('line',{x1:x1,y1:y,x2:x2,y2:y,class:'dl','marker-start':A,'marker-end':A});else{mk('line',{x1:x1-13,y1:y,x2:x1,y2:y,class:'dl','marker-end':A});mk('line',{x1:x2+13,y1:y,x2:x2,y2:y,class:'dl','marker-end':A});mk('line',{x1:x1,y1:y,x2:x2,y2:y,class:'dl'})}
+ tx((x1+x2)/2+(o.dx||0),(o.below?y+13:y-4)+(o.dy||0),l,o.c||'dt',{'text-anchor':'middle'})}
+function dimV(y1,y2,x,e1,e2,l,o){o=o||{};[[y1,e1],[y2,e2]].forEach(([y,e])=>{if(e==null)return;const s=Math.sign(x-e)||1;mk('line',{x1:e+s*3,y1:y,x2:x+s*5,y2:y,class:'ext'})});
+ mk('line',{x1:x,y1:y1,x2:x,y2:y2,class:'dl','marker-start':A,'marker-end':A});
+ const c=(y1+y2)/2;if(o.side){const r=o.side==='r';tx(r?x+6:x-6,c+4,l,o.c||'dt',{'text-anchor':r?'start':'end'})}else tx(x-5,c,l,o.c||'dt',{'text-anchor':'middle',transform:'rotate(-90 '+(x-5)+' '+c+')'})}
+function callout(px,py,ex,ey,l,dir,c){const s=dir||(ex>=px?1:-1);mk('circle',{cx:px,cy:py,r:1.8,class:'dot'});mk('polyline',{points:px+','+py+' '+ex+','+ey+' '+(ex+s*10)+','+ey,class:'lead'});tx(ex+s*14,ey+4,l,c||'dt',{'text-anchor':s>0?'start':'end'})}
+function nb(x,y,n){mk('rect',{x:x-6,y:y-6,width:12,height:12,class:'nb'});tx(x,y+3.5,String(n),'nbt',{'text-anchor':'middle'})}
+function slotLabel(x,y,w,h,l,al,c){tx(al==='l'?x+6:x+w/2,y+h/2+3.2,l,c||'sl',{'text-anchor':al==='l'?'start':'middle'})}
+function title(x,y,t,s){tx(x,y,t,'vt',{'text-anchor':'middle'});if(s)tx(x,y+14,s,'dts',{'text-anchor':'middle'})}
+function detailRef(cx,cy,r,lbl,lx,ly){mk('circle',{cx:cx,cy:cy,r:r,class:'ph'});const a=Math.atan2(ly-cy,lx-cx);mk('line',{x1:cx+r*Math.cos(a),y1:cy+r*Math.sin(a),x2:lx,y2:ly,class:'lead'});tx(lx+(lx<cx?-4:4),ly+4,lbl,'dts',{'text-anchor':lx<cx?'end':'start'})}
+function xbox(x,y,w,h){mk('rect',{x:x,y:y,width:w,height:h,class:'thin'});mk('path',{d:'M'+x+','+y+' l'+w+','+h+' M'+(x+w)+','+y+' l'+(-w)+','+h,class:'thin'})}
+function notes(list){const NX=50,NY=58;tx(NX,NY,'HINWEISE:','nth');tx(NX+92,NY,'(Befunde, Nummern wie im Bericht)','nt');
+ list.forEach(([n,t],i)=>{const y=NY+30+i*24;if(n){nb(NX+6,y-4,n);tx(NX+22,y,t,'nt')}else tx(NX,y,t,'nt')})}
+function table(x,y,ttl,head,rows,ws,al){const rh=17;tx(x,y-8,ttl,'vt');
+ [head].concat(rows).forEach((r,i)=>{let cx=x;r.forEach((c,j)=>{mk('rect',{x:cx,y:y+i*rh,width:ws[j],height:rh,class:'thin'});
+  const left=al&&al[j]==='l',at={'text-anchor':left?'start':'middle'},px=left?cx+6:cx+ws[j]/2,py=y+i*rh+12;
+  if(c&&typeof c==='object'){const a=mk('a',{href:c.href,target:'_blank',rel:'noopener'});tx(px,py,c.t,'tc',at,a)}else tx(px,py,c,i?'tc':'th',at);cx+=ws[j]})});
+ return y+(rows.length+1)*rh+36}
+
+/* ===== BLATT: unverändert lassen (Birne) ===== */
+/* Sprache des Blatts: sprache('en') gleich nach rahmen(); ohne Aufruf deutsch */
+let SPR='de';
+const WORT={de:{hinweise:'HINWEISE:',allg:'Allgemeine Hinweise',abt:'Verantw. Abt.',quelle:'Quelle',art:'Dokumentenart',status:'Dokumentenstatus',titel:'Titel, zusätzlicher Titel',nr:'Sachnummer',massstab:'Maßstab',ref:'Stand',aend:'Änd.',datum:'Ausgabedatum',spr:'Spr.',blatt:'Blatt',werk:'Werkzeichnung'},
+ en:{hinweise:'NOTES:',allg:'General notes',abt:'Resp. dept.',quelle:'Source',art:'Document type',status:'Document status',titel:'Title, supplementary title',nr:'Ident. number',massstab:'Scale',ref:'State',aend:'Rev.',datum:'Date of issue',spr:'Lang.',blatt:'Sheet',werk:'Drawing'}};
+function sprache(s){SPR=WORT[s]?s:'de'}
+function wort(k){return WORT[SPR][k]}
+/* Kästchen mit Kennung, wächst mit der Länge; gibt die Breite zurück */
+function nk(x,y,s){s=String(s);const w=Math.max(12,s.length*6+6);mk('rect',{x:x-w/2,y:y-6,width:w,height:12,class:'nb'});tx(x,y+3.5,s,'nbt',{'text-anchor':'middle'});return w}
+/* zwei Zeilen mittig in einem Kasten */
+function zwei(x,y,w,h,a,b){tx(x+w/2,y+h/2-2,a,'sl',{'text-anchor':'middle'});tx(x+w/2,y+h/2+10,b,'sl',{'text-anchor':'middle'})}
+/* Textlänge wie gezeichnet: manche Browser zählen den Buchstabenabstand nicht mit, dann wird er dazugerechnet */
+let LSK=null;
+function laenge(t){const L=t.getComputedTextLength();
+ if(LSK===null){const p=tx(0,-50,'MMMMMMMMMM','dts');const a=p.getComputedTextLength();p.style.letterSpacing='0px';LSK=Math.abs(a-p.getComputedTextLength())<.5;p.remove()}
+ return LSK?L+(parseFloat(getComputedStyle(t).letterSpacing)||0)*t.textContent.length:L}
+/* Absatz im Blocksatz: Zeilen füllen, alle außer der letzten fest auf die Breite (textLength), keine Zeile länger als w;
+   gibt das y unter dem Absatz zurück */
+function absatz(x,y,w,text,cls,lh){const m=tx(x,y,'',cls);const lines=[];let cur='';
+ text.split(' ').forEach(wd=>{const c=cur?cur+' '+wd:wd;m.textContent=c;if(laenge(m)>w&&cur){lines.push(cur);cur=wd}else cur=c});
+ if(cur)lines.push(cur);m.remove();
+ lines.forEach((l,i)=>{const t=tx(x,y+i*lh,l,cls);
+  if((i<lines.length-1&&l.indexOf(' ')>0)||laenge(t)>w){t.setAttribute('textLength',w);t.setAttribute('lengthAdjust','spacing')}});
+ return y+lines.length*lh}
+/* Rahmen: Blattrand, Zonen 1 bis 8 und A bis F, Mittenmarken (nach begin aufrufen) */
+function rahmen(){const X0=20,Y0=20,W=1660,H=1020,nx=8,ny=6;
+ mk('rect',{x:2,y:2,width:1696,height:1056,class:'thin'});
+ for(let i=0;i<=nx;i++){const x=X0+i*W/nx;
+  if(i>0&&i<nx){mk('line',{x1:x,y1:Y0-9,x2:x,y2:Y0,class:'thin'});mk('line',{x1:x,y1:Y0+H,x2:x,y2:Y0+H+9,class:'thin'})}
+  if(i<nx){const cx=X0+(i+.5)*W/nx;tx(cx,14,String(i+1),'zn',{'text-anchor':'middle'});tx(cx,1053,String(i+1),'zn',{'text-anchor':'middle'})}}
+ for(let j=0;j<=ny;j++){const y=Y0+j*H/ny;
+  if(j>0&&j<ny){mk('line',{x1:X0-9,y1:y,x2:X0,y2:y,class:'thin'});mk('line',{x1:X0+W,y1:y,x2:X0+W+9,y2:y,class:'thin'})}
+  if(j<ny){const cy=Y0+(j+.5)*H/ny+3,c='ABCDEF'[j];tx(11,cy,c,'zn',{'text-anchor':'middle'});tx(1689,cy,c,'zn',{'text-anchor':'middle'})}}
+ [[X0+W/2,2,X0+W/2,Y0+10],[X0+W/2,Y0+H-10,X0+W/2,1058],[2,Y0+H/2,X0+10,Y0+H/2],[X0+W-10,Y0+H/2,1698,Y0+H/2]].forEach(([a,b,c,d])=>mk('line',{x1:a,y1:b,x2:c,y2:d,class:'cut'}))}
+/* Hinweise oben links: Überschrift, Absätze im Blocksatz; gibt das y unter dem letzten Absatz zurück */
+function hinweise(sub,absaetze,b){const NX=50,W=b||500;const h=tx(NX,58,wort('hinweise'),'nth');if(sub)tx(NX+Math.max(92,h.getComputedTextLength()+24),58,sub,'nt');
+ let y=88;absaetze.forEach(a=>{y=absatz(NX,y,W,a,'nt',19)+6});return y}
+/* Allgemeine Hinweise mit Linienarten, rechts über dem Schriftfeld; arten: [[art,wort]], art = voll|offen|schraffiert|kennung */
+function legende(x,y,w,arten,text){tx(x,y,wort('allg'),'vt');let lx=x;const ly=y+18;
+ arten.forEach(([a,l])=>{
+  if(a==='voll')mk('line',{x1:lx,y1:ly,x2:lx+28,y2:ly,class:'obj1'});
+  else if(a==='offen')mk('line',{x1:lx,y1:ly,x2:lx+28,y2:ly,class:'vor'});
+  else if(a==='platzhalter')mk('line',{x1:lx,y1:ly,x2:lx+28,y2:ly,class:'slot'});
+  else if(a==='schraffiert')hat(lx,ly-6,26,12,0);
+  else if(a==='grau')rr(lx,ly-6,26,12,0,'hug');
+  else nk(lx+8,ly,a.slice(0,2));
+  const t=tx(lx+34,ly+3,l,'dts');lx+=34+t.getComputedTextLength()+16});
+ return text?absatz(x,y+44,w,text,'dts',14):y+30}
+/* Schriftfeld nach DIN EN ISO 7200, klein, unten rechts im Rahmen */
+function schriftfeld(f){const X=1320,Y=962,W=360,H=78;
+ const cell=(x,y,w,h,l,v)=>{mk('rect',{x:x,y:y,width:w,height:h,class:'sf'});tx(x+4,y+8,l,'sfl');
+  if(v){const t=tx(x+4,y+h-6,v,'sfv');if(t.getComputedTextLength()>w-7){t.setAttribute('textLength',w-7);t.setAttribute('lengthAdjust','spacingAndGlyphs')}}};
+ cell(X,Y,80,22,wort('abt'),f.abt||'');cell(X+80,Y,100,22,wort('quelle'),f.quelle);
+ cell(X+180,Y,90,22,wort('art'),f.art||wort('werk'));cell(X+270,Y,90,22,wort('status'),f.status);
+ cell(X,Y+22,270,34,wort('titel'),'');tx(X+4,Y+43,f.titel,'sfb');if(f.zusatz)tx(X+4,Y+53,f.zusatz,'sfv');
+ cell(X+270,Y+22,90,34,wort('nr'),f.nr);
+ cell(X,Y+56,80,22,wort('massstab'),f.massstab);cell(X+80,Y+56,70,22,f.refLabel||wort('ref'),f.ref);cell(X+150,Y+56,30,22,wort('aend'),f.aend);
+ cell(X+180,Y+56,90,22,wort('datum'),f.datum);cell(X+270,Y+56,30,22,wort('spr'),f.spr||SPR);cell(X+300,Y+56,60,22,wort('blatt'),f.blatt||'1/1');
+ mk('rect',{x:X,y:Y,width:W,height:H,class:'sfo'})}
+/* Tusche: keine Rundungen, Körperkanten leicht überzeichnet (als Letztes aufrufen); in Gruppen mit transform im selben Koordinatensystem */
+function tusche(){sv.querySelectorAll('rect').forEach(r=>{r.removeAttribute('rx');r.removeAttribute('ry')});
+ sv.querySelectorAll('rect.obj,rect.obj1,rect.hug,rect.well,rect.border,rect.hs').forEach(r=>{
+  if(r.closest('pattern,defs'))return;
+  const x=+r.getAttribute('x'),y=+r.getAttribute('y'),w=+r.getAttribute('width'),h=+r.getAttribute('height');if(!w||!h)return;
+  const e=r.classList.contains('border')?9:Math.min(5,Math.max(2.5,Math.min(w,h)*.14)),sw=getComputedStyle(r).strokeWidth;
+  [[x-e,y,x,y],[x+w,y,x+w+e,y],[x-e,y+h,x,y+h],[x+w,y+h,x+w+e,y+h],[x,y-e,x,y],[x,y+h,x,y+h+e],[x+w,y-e,x+w,y],[x+w,y+h,x+w,y+h+e]]
+   .forEach(([a,b,c,d])=>mk('line',{x1:a,y1:b,x2:c,y2:d,class:'os','stroke-width':sw,'vector-effect':'non-scaling-stroke'},r.parentNode))})}
+/* Erst zeichnen, wenn die Schrift da ist, sonst misst der Blocksatz mit der Ersatzschrift */
+function starten(fn){const F=document.fonts;
+ (F&&F.load?Promise.all(["400 11px 'Barlow Semi Condensed'","700 13px 'Barlow Semi Condensed'"].map(s=>F.load(s).catch(()=>null))).then(()=>F.ready):Promise.resolve()).then(fn,fn)}
+
+/* ===== BUNT: unverändert lassen (Birne, Modus „Bunt und in Farbe“) ===== */
+/* Grund ist Schwarz-Weiß. modus('bunt') gleich nach rahmen() färbt an: Copic-Töne, rote Akzente. Ohne Aufruf zeichnen
+   dieselben Bausteine in Tusche und Grau. Zufall mit festem Keim: das Blatt sieht bei jedem Laden gleich aus. */
+let MOD='sw',BKEIM=7,BNR=0;
+const FARBE={rot:'#df4338',himmel:'#86bde3',salbei:'#9cc07e',gruen:'#5f9455',ocker:'#efb45f',warm:'#c9bcae',kuehl:'#aab4bf',ziegel:'#d0805c',rosa:'#f2a99a'};
+const TU='#111111',WS='#ffffff';
+function modus(m,keim){MOD=m==='bunt'?'bunt':'sw';if(keim!=null)BKEIM=keim;(sv.ownerSVGElement||sv).classList.toggle('bunt',MOD==='bunt')}
+/* Farbe im Modus: bunt wie angegeben, sonst als Grau gleicher Helligkeit (wie die neutralen Copic-Töne) */
+function farbe(c){if(MOD==='bunt'||!/^#[0-9a-f]{6}$/i.test(c))return c;const n=parseInt(c.slice(1),16),l=.299*(n>>16)+.587*(n>>8&255)+.114*(n&255);
+ const g=Math.min(225,Math.round(l*.75+50)).toString(16).padStart(2,'0');return '#'+g+g+g}
+function akzent(){return MOD==='bunt'?FARBE.rot:TU}
+function bz(){BKEIM=BKEIM+0x6D2B79F5|0;let t=Math.imul(BKEIM^BKEIM>>>15,1|BKEIM);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
+const BR=(a,b)=>a+(b-a)*bz(),BP=a=>a.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' L');
+/* Filter (Tusche zittert, Pinsel franst, Marker läuft) und Erdreich, einmal je Blatt */
+function bdef(){const r=sv.ownerSVGElement||sv;let d=r.querySelector('defs.bunt');if(d)return d;if(!r.id)r.id='blatt'+(uid++);const id=r.id;
+ d=mk('defs',{class:'bunt','data-b':id},r);
+ [['wob',.035,2,1.7],['tro',.75,2,2.6],['cop',.5,1,1.6]].forEach(([n,bf,oc,sc],i)=>{const f=mk('filter',{id:n+id,x:'-5%',y:'-5%',width:'110%',height:'110%'},d);
+  mk('feTurbulence',{type:'fractalNoise',baseFrequency:bf,numOctaves:oc,seed:11+i*4,result:'n'},f);
+  mk('feDisplacementMap',{in:'SourceGraphic',in2:'n',scale:sc,xChannelSelector:'R',yChannelSelector:'G'},f)});
+ const pe=mk('pattern',{id:'erde'+id,width:14,height:14,patternUnits:'userSpaceOnUse'},d);
+ mk('path',{d:'M0,14 L14,0 M-3,3 L3,-3 M11,17 L17,11 M2,6 L6,2',class:'kh'},pe);mk('circle',{cx:9,cy:10,r:.7,fill:TU},pe);mk('circle',{cx:4,cy:11,r:.5,fill:TU},pe);
+ return d}
+function bu(n){return 'url(#'+n+bdef().getAttribute('data-b')+')'}
+/* Form als Clip: {r:[x,y,w,h]} | {k:[cx,cy,r]} | {d:'Pfad'} */
+function form(f){const d=bdef(),id='bf'+d.getAttribute('data-b')+'-'+(BNR++),cp=mk('clipPath',{id:id},d);let bb;
+ if(f.r){const[x,y,w,h]=f.r;mk('rect',{x:x,y:y,width:w,height:h},cp);bb={x:x,y:y,w:w,h:h}}
+ else if(f.k){const[cx,cy,r]=f.k;mk('circle',{cx:cx,cy:cy,r:r},cp);bb={x:cx-r,y:cy-r,w:2*r,h:2*r}}
+ else{mk('path',{d:f.d},cp);const t=mk('path',{d:f.d,fill:'none'}),b=t.getBBox();t.remove();bb={x:b.x,y:b.y,w:b.width,h:b.height}}
+ return{url:'url(#'+id+')',bb:bb}}
+function imClip(f,fn){const fo=form(f),keep=sv;sv=mk('g',{'clip-path':fo.url});fn();sv=keep}
+function erde(x,y,w,h){return mk('rect',{x:x,y:y,width:w,height:h,fill:bu('erde')})}
+/* Copic: Markerstriche, lasierend, übereinander dunkler; o: nib, op, schraeg, raus, luecke, lagen, quer, frei */
+function copic(f,c,o){o=o||{};const fo=form(f),bb=fo.bb,g=mk('g',{'clip-path':o.frei?null:fo.url,style:'mix-blend-mode:multiply'});
+ const nib=o.nib||9,sl=o.schraeg==null?.3:o.schraeg,over=o.raus==null?4:o.raus,lu=o.luecke||0;
+ const gg=mk('g',{filter:bu('cop'),stroke:farbe(c),'stroke-width':nib,'stroke-opacity':o.op||.5,fill:'none'},g);
+ for(let L=0;L<(o.lagen||1);L++){
+  if(o.quer){const dy=bb.w*sl;for(let y=bb.y-Math.max(0,dy)-nib;y<bb.y+bb.h+Math.max(0,-dy)+nib;y+=nib*(L?BR(1.7,2.8):BR(.72,.95))){if(L&&bz()<.35)continue;
+    const x1=bb.x-over+BR(0,lu)*bb.w,x2=bb.x+bb.w+over-BR(0,lu)*bb.w;mk('line',{x1:x1,y1:y,x2:x2,y2:y+(x2-x1)*sl},gg)}}
+  else{const dx=bb.h*sl;for(let x=bb.x-Math.max(0,dx)-nib;x<bb.x+bb.w+Math.max(0,-dx)+nib;x+=nib*(L?BR(1.7,2.8):BR(.72,.95))){if(L&&bz()<.35)continue;
+    const y1=bb.y-over+BR(0,lu)*bb.h,y2=bb.y+bb.h+over-BR(0,lu)*bb.h;mk('line',{x1:x+dx,y1:y1,x2:x,y2:y2},gg)}}}
+ return g}
+/* Schraffur in Tusche: der Abstand gibt die Tiefe; o: winkel, abstand, kreuz, bereich [x,y,w,h], k (Linienklasse) */
+function schraffur(f,o){o=o||{};const fo=form(f),bb=fo.bb;let g=mk('g',{'clip-path':fo.url});if(o.bereich){const fb=form({r:o.bereich});g=mk('g',{'clip-path':fb.url},g)}
+ const lage=w=>{const a=w*Math.PI/180,s=o.abstand||5,cx=bb.x+bb.w/2,cy=bb.y+bb.h/2,D=Math.hypot(bb.w,bb.h)/2+2,ux=Math.cos(a),uy=-Math.sin(a);
+  for(let t=-D;t<=D;t+=s*BR(.88,1.12)){const px=cx-uy*t,py=cy+ux*t;mk('line',{x1:px-ux*D,y1:py-uy*D,x2:px+ux*D,y2:py+uy*D,class:o.k||'kh'},g)}};
+ const w=o.winkel==null?45:o.winkel;lage(w);if(o.kreuz)lage(w+90);return g}
+function kurve(pts,N){N=N||12;const sp=[];for(let i=0;i<pts.length-1;i++){const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];
+ for(let j=0;j<N;j++){const t=j/N,t2=t*t,t3=t2*t;sp.push([0,1].map(k=>.5*(2*p1[k]+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3)))}}
+ sp.push(pts[pts.length-1].slice());return sp}
+function wolke(cx,cy,rx,ry,nb,amp){const off=BR(0,6.28),p=[];for(let i=0;i<nb;i++){const a=off+i/nb*6.2832+BR(-.1,.1),k=BR(.93,1.04);p.push([cx+Math.cos(a)*rx*k,cy+Math.sin(a)*ry*k])}
+ let d='M'+p[0][0].toFixed(1)+','+p[0][1].toFixed(1);
+ for(let i=0;i<nb;i++){const a=p[i],b=p[(i+1)%nb],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,vx=mx-cx,vy=my-cy,l=Math.hypot(vx,vy)||1,m=amp*BR(.75,1.3);
+  d+=' Q'+(mx+vx/l*m).toFixed(1)+','+(my+vy/l*m).toFixed(1)+' '+b[0].toFixed(1)+','+b[1].toFixed(1)}return d+'Z'}
+/* Baum in der Ansicht: rund, pappel oder nadel; Fußpunkt x, y, Höhe h */
+function baum(x,y,h,art){
+ if(art==='nadel'){const r=[],l=[];r.push([x,y-h]);for(let i=1;i<=4;i++){const yi=y-h+h*.8*i/4,wi=h*(.09+.17*i/4);r.push([x+wi,yi]);if(i<4)r.push([x+wi*.45,yi])}
+  r.forEach(p=>l.unshift([2*x-p[0],p[1]]));const d='M'+BP(r.concat(l.slice(0,-1)))+'Z';
+  mk('line',{x1:x,y1:y-h*.2,x2:x,y2:y,stroke:TU,'stroke-width':h*.04});
+  mk('path',{d:d,fill:WS});copic({d:d},FARBE.gruen,{nib:h*.12,op:.55,schraeg:.2,raus:2});
+  schraffur({d:d},{bereich:[x,y-h,h*.4,h],abstand:2.6,winkel:60});mk('path',{d:d,class:'k1',filter:bu('wob')});return}
+ const pap=art==='pappel',cy=pap?y-h*.56:y-h*.62,rx=pap?h*.13:h*.33,ry=pap?h*.42:h*.35;
+ const d=wolke(x,cy,rx,ry,pap?11:13,Math.min(rx,ry)*.22),tb=h*.028;
+ mk('path',{d:`M${x-tb},${y} L${x-tb*.4},${cy} L${x+tb*.4},${cy} L${x+tb},${y}Z`,fill:TU});
+ mk('path',{d:d,fill:WS});copic({d:d},FARBE.salbei,{nib:Math.max(5,rx*.34),op:.62,schraeg:.22,raus:2});
+ imClip({r:[x+rx*.05,cy-ry*.05,rx*1.3,ry*1.3]},()=>copic({d:d},FARBE.gruen,{nib:Math.max(4,rx*.3),op:.38,schraeg:.22,raus:2}));
+ schraffur({d:d},{bereich:[x+rx*.25,cy-ry*.3,rx,ry*1.5],abstand:2.6,winkel:50});
+ const gb=mk('g',{class:'k1',filter:bu('wob')});
+ [[-.45,-.1],[.38,-.28],[.02,-.55]].forEach(([a,b])=>mk('path',{d:`M${x},${cy+ry*.45} Q${x+rx*a*.3},${cy} ${x+rx*a},${cy+ry*b}`},gb));
+ mk('path',{d:d},gb)}
+/* Baum im Grundriss mit Schlagschatten */
+function baumPlan(x,y,r){const ds=wolke(x+r*.35,y+r*.35,r,r,12,r*.14);schraffur({d:ds},{abstand:2.4,winkel:45});
+ const d=wolke(x,y,r,r,12,r*.14);mk('path',{d:d,fill:WS});copic({d:d},FARBE.salbei,{nib:r*.42,op:.58,schraeg:.25});
+ imClip({r:[x,y-r*1.3,r*1.4,r*2.6]},()=>copic({d:d},FARBE.gruen,{nib:r*.35,op:.3}));
+ const g=mk('g',{class:'k1',filter:bu('wob')});mk('path',{d:d},g);
+ for(let i=0;i<6;i++){const a=i/6*6.283+BR(-.2,.2);mk('line',{x1:x,y1:y,x2:x+Math.cos(a)*r*.55,y2:y+Math.sin(a)*r*.55},g)}
+ mk('circle',{cx:x,cy:y,r:1.6,fill:TU})}
+/* Figur als Rolle, steht oder geht; c = Farbe des Mantels oder leer für Tusche; gibt die Hand zurück */
+function figur(x,y,h,pose,c,o){o=o||{};const d=o.dir||1,geht=pose==='geht',lean=geht?h*.035*d:0;
+ const hip=[x+lean*.4,y-h*.47],nk=[x+lean,y-h*.82],sw=h*.075;
+ const g=mk('g',{stroke:TU,'stroke-width':sw,'stroke-linecap':'round','stroke-linejoin':'round',fill:'none'});
+ const L=pts=>mk('polyline',{points:pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')},g);
+ if(geht){L([hip,[hip[0]+d*h*.09,y-h*.24],[x+d*h*.17,y]]);L([hip,[hip[0]-d*h*.03,y-h*.23],[x-d*h*.12,y-h*.015]])}
+ else{L([[hip[0]-h*.03,hip[1]],[x-h*.055,y]]);L([[hip[0]+h*.03,hip[1]],[x+h*.055,y]])}
+ const coat=`M${nk[0]-h*.085},${nk[1]+h*.015} L${nk[0]+h*.085},${nk[1]+h*.015} L${hip[0]+h*.105},${hip[1]+h*.09} L${hip[0]-h*.105},${hip[1]+h*.09}Z`;
+ if(c){mk('path',{d:coat,fill:WS});copic({d:coat},c,{nib:h*.1,op:.85,raus:2,schraeg:.15});mk('path',{d:coat,class:'k1'})}
+ else mk('path',{d:coat,fill:TU});
+ const g2=mk('g',{stroke:TU,'stroke-width':sw*.85,'stroke-linecap':'round','stroke-linejoin':'round',fill:'none'}),sh=[nk[0],nk[1]+h*.035];let hand;
+ if(geht){mk('polyline',{points:`${sh[0]},${sh[1]} ${sh[0]+d*h*.07},${y-h*.6} ${sh[0]+d*h*.12},${y-h*.5}`},g2);
+  mk('polyline',{points:`${sh[0]},${sh[1]} ${sh[0]-d*h*.06},${y-h*.6} ${sh[0]-d*h*.1},${y-h*.52}`},g2);hand=[sh[0]+d*h*.12,y-h*.5]}
+ else{[-1,1].forEach(s=>mk('polyline',{points:`${sh[0]+s*h*.06},${sh[1]} ${sh[0]+s*h*.085},${y-h*.6} ${sh[0]+s*h*.08},${y-h*.48}`},g2));hand=[sh[0]+h*.08,y-h*.48]}
+ mk('circle',{cx:nk[0]+lean*.4,cy:nk[1]-h*.075,r:h*.066,fill:TU});return hand}
+/* Figur von oben im Grundriss, a = Blickrichtung in Grad */
+function figurOben(x,y,s,a,c){const g=mk('g',{transform:`rotate(${a} ${x} ${y})`});
+ mk('ellipse',{cx:x,cy:y,rx:s*.5,ry:s*.22,fill:farbe(c||'#aab4bf'),'fill-opacity':.85,stroke:TU,'stroke-width':.7},g);mk('circle',{cx:x,cy:y,r:s*.17,fill:TU},g)}
+/* Hund mit Ringelschwanz; gibt das Halsband zurück. Leine von der Hand zum Halsband */
+function hund(x,y,s,d){d=d||1;const g=mk('g',{fill:TU});
+ mk('ellipse',{cx:x,cy:y-s*.5,rx:s*.42,ry:s*.22},g);mk('circle',{cx:x+d*s*.42,cy:y-s*.68,r:s*.19},g);
+ [-.28,-.17,.2,.3].forEach(k=>mk('line',{x1:x+k*s,y1:y-s*.4,x2:x+k*s,y2:y,stroke:TU,'stroke-width':s*.09,'stroke-linecap':'round'},g));
+ mk('path',{d:`M${x-d*s*.4},${y-s*.6} q${-d*s*.2},${-s*.22} ${-d*s*.02},${-s*.32}`,fill:'none',stroke:TU,'stroke-width':s*.08,'stroke-linecap':'round'},g);
+ return[x+d*s*.3,y-s*.66]}
+function leine(a,b){mk('path',{d:`M${a[0]},${a[1]} Q${(a[0]+b[0])/2},${Math.max(a[1],b[1])+9} ${b[0]},${b[1]}`,class:'k1'})}
+/* Nordstern: acht Spitzen, Nordspitze im Akzent */
+function nordstern(x,y,r){const g=mk('g',{});mk('circle',{cx:x,cy:y,r:r*.62,class:'k1'},g);mk('circle',{cx:x,cy:y,r:r*.55,class:'kh'},g);
+ for(let i=0;i<24;i++){const a=i/24*6.283;mk('line',{x1:x+Math.cos(a)*r*.55,y1:y+Math.sin(a)*r*.55,x2:x+Math.cos(a)*r*.62,y2:y+Math.sin(a)*r*.62,class:'kh'},g)}
+ const ray=(a,len,w,f1,f2)=>{const t=[x+Math.cos(a)*len,y+Math.sin(a)*len],l=[x+Math.cos(a-1.5708)*w,y+Math.sin(a-1.5708)*w],q=[x+Math.cos(a+1.5708)*w,y+Math.sin(a+1.5708)*w];
+  mk('path',{d:`M${x},${y} L${t} L${l}Z`,fill:f1,stroke:TU,'stroke-width':.8,'stroke-linejoin':'miter'},g);mk('path',{d:`M${x},${y} L${t} L${q}Z`,fill:f2,stroke:TU,'stroke-width':.8,'stroke-linejoin':'miter'},g)};
+ [45,135,225,315].forEach(a=>ray(a*Math.PI/180,r*.46,r*.09,WS,TU));
+ [0,90,180].forEach(a=>ray(a*Math.PI/180,r*.78,r*.13,TU,WS));ray(-Math.PI/2,r,r*.14,akzent(),WS);
+ tx(x,y-r-5,'N','nsn',{'text-anchor':'middle'},g)}
+/* Icons statt Emojis: abstrakt, 16er Raster, Tusche mit einem Element im Akzent.
+   ansicht, grundriss, schnitt, draufsicht, detail, zeit, werk, tabelle, nord, pinsel */
+function icon(n,x,y,s){const g=mk('g',{transform:`translate(${x},${y}) scale(${s/16})`});
+ const st={fill:'none',stroke:TU,'stroke-width':1.4,'vector-effect':'non-scaling-stroke'},P=(d,e)=>mk('path',Object.assign({d:d},st,e||{}),g),RT=akzent();
+ if(n==='ansicht'){P('M0,15 H16');P('M2,15 V7 L6,3 L10,7 V15');mk('rect',{x:11.5,y:6,width:3.5,height:9,fill:RT},g)}
+ else if(n==='grundriss'){P('M1,1 H15 V15 H1 Z',{'stroke-width':2.4});P('M1,8 H8');P('M8,8 A6,6 0 0 1 14,14',{'stroke-width':.8});mk('rect',{x:3,y:10,width:3,height:3,fill:RT},g)}
+ else if(n==='schnitt'){mk('path',{d:'M2,8 A6,6 0 0 1 14,8 Z',fill:TU},g);P('M2,8 A6,6 0 0 0 14,8');P('M0,8 H16');mk('path',{d:'M8,16 L4.5,11 H11.5 Z',fill:RT},g)}
+ else if(n==='draufsicht'){P('M1,1 H15 V15 H1 Z');P('M5,5 H11 V11 H5 Z');mk('circle',{cx:8,cy:8,r:1.7,fill:RT},g)}
+ else if(n==='detail'){P('M8,1.5 A6.5,6.5 0 1 1 7.9,1.5',{'stroke-dasharray':'2 1.6'});mk('circle',{cx:12.5,cy:12.5,r:3,fill:RT},g)}
+ else if(n==='zeit'){P('M0,11 H16');P('M3,9 V13 M8,9 V13 M13,9 V13',{'stroke-width':.9});mk('path',{d:'M8,2 L11,5 L8,8 L5,5 Z',fill:RT},g)}
+ else if(n==='werk'){P('M8,3 A5,5 0 1 1 7.9,3');P('M8,0 V16 M0,8 H16',{stroke:RT,'stroke-width':.9,'stroke-dasharray':'3 1.2 1 1.2'});mk('circle',{cx:8,cy:8,r:1.5,fill:TU},g)}
+ else if(n==='tabelle'){mk('rect',{x:1,y:1,width:14,height:3.5,fill:RT},g);P('M1,1 H15 V15 H1 Z');P('M1,4.5 H15 M1,8 H15 M1,11.5 H15 M6,1 V15',{'stroke-width':.8})}
+ else if(n==='nord'){P('M8,0 L10,8 L8,16 L6,8 Z');mk('path',{d:'M8,0 L10,8 L6,8 Z',fill:RT},g);P('M0,8 L8,6.5 L16,8 L8,9.5 Z',{'stroke-width':.8})}
+ else if(n==='pinsel'){mk('path',{d:'M1.5,14.5 C4,7 9,3 14.5,1.5 C12,5.5 8,10 2.5,15.5 Z',fill:TU},g);mk('circle',{cx:13,cy:13,r:2.2,fill:RT},g)}
+ return g}
+/* Titel: Icon, Copic-Streich hinter dem Wort, Doppellinie, Untertitel im Akzent; linksbündig ab x */
+function titel(x,y,ic,t,u,c){icon(ic,x,y-15,18);const T=tx(x+28,y,t,'tt'),w=T.getBBox().width;
+ /* Copic-Schwung UNTER dem Titel (nie durch die Schrift): dick, breiter als der Titel, leicht ansteigend */
+ const s=mk('path',{d:`M${x+14},${y+9} Q${x+28+w*.45},${y+12} ${x+48+w},${y+2}`,stroke:farbe(c||FARBE.rot),'stroke-width':15,'stroke-linecap':'round','stroke-opacity':.5,fill:'none',style:'mix-blend-mode:multiply',filter:bu('cop')});sv.insertBefore(s,T);
+ mk('line',{x1:x,y1:y+6,x2:x+34+w,y2:y+6,stroke:TU,'stroke-width':1.8});mk('line',{x1:x,y1:y+9.5,x2:x+34+w,y2:y+9.5,class:'k1'});
+ if(u)tx(x+28,y+22,u,'tu')}
+/* Fenster in der Ansicht: Glas in Blau, Laibung schraffiert, Sprossen, Bank */
+function fenster(x,y,w,h,o){o=o||{};mk('rect',{x:x,y:y,width:w,height:h,fill:WS});copic({r:[x,y,w,h]},FARBE.himmel,{nib:Math.min(8,w*.4),op:.5,schraeg:.4,raus:0});
+ schraffur({r:[x,y,w,3.2]},{abstand:1.7});schraffur({r:[x,y,3.2,h]},{abstand:1.7});
+ const g=mk('g',{class:'k1'});mk('rect',{x:x,y:y,width:w,height:h},g);const n=o.sprossen||2;
+ for(let i=1;i<n;i++)mk('line',{x1:x+w*i/n,y1:y,x2:x+w*i/n,y2:y+h},g);mk('line',{x1:x,y1:y+h*.4,x2:x+w,y2:y+h*.4},g);
+ mk('line',{x1:x-2,y1:y+h+1.5,x2:x+w+2,y2:y+h+1.5,class:'k2'})}
+/* Maßkette wie in der Architektur, mit Schrägstrich; xs Achsen, y Kette, e Bezugskante, texte je Feld */
+function massKette(xs,y,e,texte){mk('line',{x1:xs[0]-6,y1:y,x2:xs[xs.length-1]+6,y2:y,class:'k1'});
+ xs.forEach(x=>{mk('line',{x1:x,y1:e+3,x2:x,y2:y+4,class:'kh'});mk('line',{x1:x-3,y1:y+3,x2:x+3,y2:y-3,stroke:TU,'stroke-width':1.3})});
+ texte.forEach((l,i)=>tx((xs[i]+xs[i+1])/2,y-4,l,'dt',{'text-anchor':'middle'}))}
+/* Höhenkote: Dreieck halb schwarz, Bezugslinie gestrichelt bis bis */
+function kote(x,y,t,bis){mk('line',{x1:x-6,y1:y,x2:bis||x+40,y2:y,class:'kd'});mk('path',{d:`M${x-5},${y-8} L${x+5},${y-8} L${x},${y}Z`,class:'k1',fill:WS});mk('path',{d:`M${x},${y-8} L${x+5},${y-8} L${x},${y}Z`,fill:TU});tx(x+9,y-3,t,'lbk')}
+/* Positionsnummer im Kreis mit Hinweislinie zum Punkt px, py */
+function ballon(n,x,y,px,py){const a=Math.atan2(py-y,px-x);mk('line',{x1:x+Math.cos(a)*9,y1:y+Math.sin(a)*9,x2:px,y2:py,class:'k1'});mk('circle',{cx:px,cy:py,r:1.6,fill:TU});
+ mk('circle',{cx:x,cy:y,r:9,fill:WS,stroke:TU,'stroke-width':.9});tx(x,y+3.5,String(n),'lb',{'text-anchor':'middle'})}
+/* Maßstabsleiste; Zahlen nur mit teile (belegt), sonst nur das Wort */
+function massstab(x,y,t,teile){const n=teile?teile.length-1:4;for(let i=0;i<n;i++){mk('rect',{x:x+i*16,y:y,width:16,height:4,fill:i%2?WS:TU});mk('rect',{x:x+i*16,y:y,width:16,height:4,class:'k1'})}
+ if(teile)teile.forEach((l,i)=>tx(x+i*16,y+13,l,'lbk',{'text-anchor':'middle'}));tx(x,y-5,t,'lbk')}
+/* Schnittlinie mit Buchstaben; seite = Blickrichtung quer zur Linie (1 oder -1) */
+function schnittlinie(x1,y1,x2,y2,b,seite){seite=seite||1;const L=Math.hypot(x2-x1,y2-y1),ux=(x2-x1)/L,uy=(y2-y1)/L,nx=-uy*seite,ny=ux*seite,K=akzent();
+ mk('line',{x1:x1,y1:y1,x2:x2,y2:y2,class:'ka'});
+ [[x1,y1,1],[x2,y2,-1]].forEach(([x,y,s])=>{mk('line',{x1:x-ux*s*6,y1:y-uy*s*6,x2:x+ux*s*12,y2:y+uy*s*12,stroke:K,'stroke-width':3});
+  const ex=x+ux*s*3,ey=y+uy*s*3;mk('path',{d:`M${ex+nx*14},${ey+ny*14} L${ex+nx*5+ux*4},${ey+ny*5+uy*4} L${ex+nx*5-ux*4},${ey+ny*5-uy*4}Z`,fill:K});
+  tx(ex+nx*24,ey+ny*24+6,b,'sa',{'text-anchor':'middle'})})}
+/* Weg im Akzent mit Pfeil; strich = gestrichelt (Rückweg) */
+function weg(pts,o){o=o||{};return mk('polyline',{points:pts.map(p=>p.join(',')).join(' '),fill:'none',stroke:akzent(),'stroke-width':o.w||2.2,'stroke-linejoin':'round','stroke-dasharray':o.strich?'7 4':null,'marker-end':A})}
+/* Pinsel: Druck an, voll, auslaufen; trockene Haare (Kasure) am Ende; o: an, ab, ende, kasure, farbe, op, n */
+function pinsel(pts,w,o){o=o||{};const sp=kurve(pts,o.n||12),m=sp.length,an=o.an==null?.1:o.an,ab=o.ab==null?.45:o.ab,end=o.ende==null?.12:o.ende;
+ const wd=[],nv=[];for(let i=0;i<m;i++){const t=i/(m-1);const f=t<an?.3+.7*Math.sin(t/an*1.5708):t>1-ab?end+(1-end)*Math.cos((t-(1-ab))/ab*1.5708):1;wd.push(w*f*(1+BR(-.08,.08)));
+  const a=sp[Math.max(0,i-1)],b=sp[Math.min(m-1,i+1)],dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;nv.push([-dy/l,dx/l])}
+ const L=sp.map((p,i)=>[p[0]+nv[i][0]*wd[i]/2,p[1]+nv[i][1]*wd[i]/2]),Q=sp.map((p,i)=>[p[0]-nv[i][0]*wd[i]/2,p[1]-nv[i][1]*wd[i]/2]).reverse();
+ const g=mk('g',{filter:bu('tro')});mk('path',{d:'M'+BP(L)+' L'+BP(Q)+'Z',fill:o.farbe?farbe(o.farbe):TU,'fill-opacity':o.op||.94},g);
+ for(let s=0;s<(o.kasure==null?3:o.kasure);s++){const off=BR(-.34,.34),st=Math.floor(m*BR(.4,.7)),pp=[];for(let i=st;i<m;i++)pp.push([sp[i][0]+nv[i][0]*off*wd[i],sp[i][1]+nv[i][1]*off*wd[i]]);
+  if(pp.length>1)mk('polyline',{points:pp.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join(' '),fill:'none',stroke:WS,'stroke-width':BR(.5,1.3),'stroke-linecap':'round'},g)}
+ return g}
+/* Ensō: Kreis in einem Zug, offen; Mitte cx, cy, Radius r, Pinselbreite w */
+function enso(cx,cy,r,w){const p=[];for(let i=0;i<=14;i++){const a=2.45+i/14*5.35,k=1+BR(-.025,.025);p.push([cx+Math.cos(a)*r*k,cy+Math.sin(a)*r*k])}
+ return pinsel(p,w||r*.17,{an:.05,ab:.55,ende:.05,kasure:6,n:10})}
+/* Siegel (Hanko) im Akzent und senkrechte Schrift, Zeichen von oben nach unten */
+function siegel(x,y,s,z){const g=mk('g',{filter:bu('tro')});mk('rect',{x:x-s/2,y:y-s/2,width:s,height:s,fill:akzent()},g);tx(x,y+s*.27,z,'pz',{'text-anchor':'middle','font-size':s*.7,style:'fill:'+WS},g)}
+function senkrecht(x,y,t,s){Array.from(t).forEach((c,i)=>tx(x,y+i*s*1.2,c,'pz',{'text-anchor':'middle','font-size':s}))}
+
+/* ===== ZEICHNUNG: je Blatt neu. Deployment von Birne und Apfel im Modus bunt, die zwei Repos als Haus ===== */
+starten(function(){
+begin('sh1');rahmen();modus('bunt');
+
+/* ---- HINWEISE oben links, Blocksatz ---- */
+hinweise('(Auslieferung über GitHub als Plugin, Stand 17.11.2026)',[
+ 'Der Betrieb pusht auf main, GitHub trägt die zwei Repos, der Nutzer holt sie mit /plugin install. Einen Server gibt es nicht.',
+ 'Steht: birnenkern 1.2.0 mit Modus bunt, apfelkern 1.2.0 mit Birne 1.1.0. Der Birne-Abgleich ist dreimal grün.',
+ 'Offen: Die Sicherung von apfelkern steht auf 09.11., vier Commits zurück. Betrieb.'],500);
+
+/* ---- DRAUFSICHT · Antriebsstrang, Allrad ---- */
+{const Y=380;
+ /* Karosserie von oben, Stahl */
+ const kar='M128,330 Q130,296 170,292 L430,292 Q470,296 474,330 L474,430 Q470,466 430,468 L170,468 Q130,466 128,430 Z';
+ mk('path',{d:kar,fill:WS});copic({d:kar},FARBE.kuehl,{nib:14,op:.22,lagen:1});
+ mk('path',{d:kar,class:'kd'});
+ /* Räder: Install beim Nutzer */
+ [[160,272],[160,468],[400,272],[400,468]].forEach(([x,y])=>{mk('rect',{x:x,y:y,width:44,height:20,fill:TU});
+  const g=mk('g',{class:'k1',stroke:WS});for(let i=1;i<6;i++)mk('line',{x1:x+i*7.3,y1:y+3,x2:x+i*7.3,y2:y+17},g)});
+ /* Achsen */
+ [182,422].forEach(x=>{mk('line',{x1:x,y1:292,x2:x,y2:468,class:'k2'})});
+ /* Motor längs vor der Mittensperre, Getriebe, Mittensperre, Kardanwelle, Hinterachsdifferenzial */
+ mk('rect',{x:204,y:348,width:74,height:64,fill:WS});copic({r:[204,348,74,64]},FARBE.ocker,{nib:10,op:.45,lagen:2});
+ {const g=mk('g',{class:'k1'});[0,1,2,3].forEach(i=>mk('circle',{cx:222+i*13,cy:380,r:5},g))}
+ mk('rect',{x:204,y:348,width:74,height:64,class:'k2'});
+ mk('path',{d:'M278,358 L316,364 L316,396 L278,402 Z',fill:WS});copic({d:'M278,358 L316,364 L316,396 L278,402 Z'},FARBE.kuehl,{nib:8,op:.5});mk('path',{d:'M278,358 L316,364 L316,396 L278,402 Z',class:'k2'});
+ mk('rect',{x:316,y:362,width:34,height:36,fill:WS});copic({r:[316,362,34,36]},FARBE.himmel,{nib:8,op:.6,lagen:2});mk('rect',{x:316,y:362,width:34,height:36,class:'k2'});
+ mk('circle',{cx:333,cy:380,r:10,class:'k1'});
+ mk('line',{x1:350,y1:Y-3,x2:408,y2:Y-3,class:'k1'});mk('line',{x1:350,y1:Y+3,x2:408,y2:Y+3,class:'k1'});
+ [358,400].forEach(x=>mk('circle',{cx:x,cy:Y,r:4.5,fill:WS,class:'k1'}));
+ mk('circle',{cx:422,cy:Y,r:16,fill:WS});copic({k:[422,Y,16]},FARBE.warm,{nib:8,op:.6});mk('circle',{cx:422,cy:Y,r:16,class:'k2'});
+ mk('circle',{cx:182,cy:Y,r:12,fill:WS});copic({k:[182,Y,12]},FARBE.ocker,{nib:7,op:.5});mk('circle',{cx:182,cy:Y,r:12,class:'k2'});
+ /* Welle zur Vorderachse liegt unter dem Motor: verdeckt */
+ mk('line',{x1:316,y1:404,x2:194,y2:392,class:'kd'});
+ /* Kraftfluss */
+ weg([[240,380],[316,380]]);weg([[350,380],[404,380]]);weg([[318,404],[198,392]],{strich:1});
+ nk(322,348,'P');nk(346,348,'D');
+ tx(241,344,'MOTOR · PUSH','lbk',{'text-anchor':'middle'});
+ tx(297,428,'GETRIEBE · MAIN','lbk',{'text-anchor':'middle'});
+ tx(182,318,'VORDERACHSE','lb',{'text-anchor':'middle'});tx(182,331,'BIRNENKERN 1.2.0','lbk',{'text-anchor':'middle'});
+ tx(422,318,'HINTERACHSE','lb',{'text-anchor':'middle'});tx(422,331,'APFELKERN 1.2.0','lbk',{'text-anchor':'middle'});
+ tx(422,440,'MIT BIRNE 1.1.0','lbk',{'text-anchor':'middle'});
+ tx(300,454,'MITTENSPERRE = ABGLEICH','lbk',{'text-anchor':'middle'});
+ tx(128,256,'RÄDER = INSTALL BEIM NUTZER','lbk');
+ ar(560,262,500,262);tx(530,252,'FAHRTRICHTUNG','lbk',{'text-anchor':'middle'});
+ schnittlinie(96,442,500,442,'A',-1);
+ massKette([182,422],526,468,['Radstand · schematisch']);
+ titel(60,578,'draufsicht','Draufsicht · Antriebsstrang','Allrad: ein Motor, zwei Achsen, eine Sperre dazwischen',FARBE.ocker);}
+
+/* ---- WERKSTÜCK · Typenschild der Sperre, Detail D ---- */
+{const x0=110,y0=656,w=34,h=46,Z=['7','c','c','e','a','9','d'];
+ mk('rect',{x:x0-8,y:y0-8,width:7*w+16,height:h+16,fill:WS});copic({r:[x0-8,y0-8,7*w+16,h+16]},FARBE.kuehl,{quer:1,nib:10,op:.35,raus:0});
+ copic({r:[x0,y0,7*w,h]},FARBE.himmel,{quer:1,nib:9,op:.32,raus:0});
+ Z.forEach((c,i)=>{mk('rect',{x:x0+i*w,y:y0,width:w,height:h,class:'k1'});tx(x0+i*w+w/2,y0+h/2+7,c,'vtb',{'text-anchor':'middle'})});
+ mk('rect',{x:x0-8,y:y0-8,width:7*w+16,height:h+16,class:'k2'});
+ [[x0-4,y0-4],[x0+7*w+4,y0-4],[x0-4,y0+h+4],[x0+7*w+4,y0+h+4]].forEach(([x,y])=>{mk('circle',{cx:x,cy:y,r:2.4,fill:WS,class:'k1'});mk('line',{x1:x-1.6,y1:y,x2:x+1.6,y2:y,class:'k1'})});
+ dimH(x0,x0+7*w,y0-22,y0-8,y0-8,'7 Zeichen · Kurzform',{c:'dts'});
+ dimH(x0,x0+7*w,y0+h+28,y0+h+8,y0+h+8,'40 Zeichen im Workflow',{c:'dts',below:1});
+ ballon(1,82,y0+23,x0+4,y0+23);ballon(2,82,y0-24,x0-4,y0-4);
+ const TX=400,TY=y0-14,ws=[30,124],rows=[['POS','BENENNUNG'],['1','Ref birnenkern 1.1.0'],['2','Niete, Workflow'],['','Push · PR · Mo 06:17 UTC']];
+ copic({r:[TX,TY,154,16]},FARBE.himmel,{quer:1,nib:8,op:.3,raus:0});
+ rows.forEach((r,i)=>{let x=TX;r.forEach((c,j)=>{mk('rect',{x:x,y:TY+i*16,width:ws[j],height:16,class:'k1'});tx(j?x+5:x+ws[j]/2,TY+i*16+11.5,c,i?'tc':'lb',{'text-anchor':j?'start':'middle'});x+=ws[j]})});
+ mk('rect',{x:TX,y:TY,width:154,height:64,class:'k2'});nk(TX+142,TY+80,'D');
+ rr(x0,y0+h+48,440,22,0,'slot');slotLabel(x0,y0+h+48,440,22,'Modus bunt ab 1.2.0 wird nicht nachgezogen · Entscheid 16.11.','l');
+ titel(60,826,'werk','Werkstück · Typenschild der Sperre','Detail D · Ref 7ccea9d, Abgleich fest auf birnenkern 1.1.0',FARBE.himmel);}
+
+/* ---- SKIZZE mit Pinsel, unten links ---- */
+{enso(118,946,56,11);
+ pinsel([[118,906],[128,922],[140,948],[136,974],[118,986],[99,982],[90,962],[96,936],[110,914],[116,906]],4.6,{an:.08,ab:.3,ende:.3,kasure:2});
+ pinsel([[117,907],[120,894],[127,886]],3,{an:.2,ab:.5,ende:.4,kasure:0});
+ pinsel([[124,890],[138,881],[154,882]],8,{an:.25,ab:.65,ende:.08,kasure:2});
+ tx(206,940,'ZWEI ACHSEN','wp');
+ tx(206,972,'EIN ANTRIEB · BIRNE ZEICHNET, APFEL PRÜFT','lbk');}
+
+/* ---- SEITENANSICHT · auf dem Rollenprüfstand ---- */
+{const G=340,R=40;
+ copic({r:[630,64,650,G-64]},FARBE.kuehl,{quer:1,nib:18,op:.16,schraeg:-.02,luecke:.3,raus:0});
+ /* Halle: Stütze und Hallenkran angedeutet */
+ mk('line',{x1:640,y1:96,x2:1270,y2:96,class:'k2'});schraffur({r:[640,86,630,10]},{abstand:3,kreuz:1});
+ mk('line',{x1:950,y1:96,x2:950,y2:120,class:'k1'});mk('path',{d:'M944,120 h12 v6 a6,6 0 0 1 -12,0 Z',class:'k1',fill:WS});
+ /* Karosserie */
+ const kar='M716,300 L718,276 Q722,260 758,254 L858,244 L898,212 Q918,198 958,196 L1040,196 Q1072,198 1102,222 L1150,248 Q1180,254 1184,272 L1186,300 L1124,300 A44,44 0 0 0 1036,300 L864,300 A44,44 0 0 0 776,300 Z';
+ mk('path',{d:kar,fill:WS});copic({d:kar},FARBE.kuehl,{nib:16,op:.5,schraeg:.15,lagen:2});
+ schraffur({d:kar},{abstand:3,bereich:[716,280,470,20]});
+ const gl='M874,246 L906,218 Q922,206 958,205 L1034,205 Q1062,207 1088,226 L1110,246 Z';
+ mk('path',{d:gl,fill:WS});copic({d:gl},FARBE.himmel,{nib:9,op:.55,schraeg:.5});
+ /* Zierstreifen in Rot, Heckflügel, Schweller */
+ copic({r:[740,262,430,7]},FARBE.rot,{quer:1,nib:7,op:.7,raus:0});
+ mk('path',{d:'M1146,232 L1192,228 L1192,236 L1146,240 Z',fill:TU});mk('line',{x1:1160,y1:240,x2:1160,y2:250,class:'k2'});mk('line',{x1:1180,y1:236,x2:1180,y2:252,class:'k2'});
+ {const g=mk('g',{filter:bu('wob')});mk('path',{d:kar,class:'k2'},g);mk('path',{d:gl,class:'k1'},g);
+  mk('line',{x1:990,y1:205,x2:990,y2:300,class:'k1'},g);mk('line',{x1:880,y1:252,x2:880,y2:296,class:'k1'},g);mk('line',{x1:1100,y1:252,x2:1100,y2:296,class:'k1'},g);
+  mk('line',{x1:950,y1:262,x2:968,y2:262,class:'k2'},g);mk('line',{x1:1060,y1:262,x2:1078,y2:262,class:'k2'},g)}
+ /* Räder mit Bremssattel */
+ [820,1080].forEach(cx=>{const cy=G-R;mk('circle',{cx:cx,cy:cy,r:R,fill:TU});mk('circle',{cx:cx,cy:cy,r:26,fill:WS});
+  copic({r:[cx-24,cy-22,12,20]},FARBE.rot,{nib:6,op:.85,raus:0});mk('rect',{x:cx-24,y:cy-22,width:12,height:20,class:'k1'});
+  const g=mk('g',{class:'k1'});mk('circle',{cx:cx,cy:cy,r:26},g);mk('circle',{cx:cx,cy:cy,r:6},g);
+  for(let i=0;i<10;i++){const a=i*Math.PI/5;mk('line',{x1:cx+Math.cos(a)*7,y1:cy+Math.sin(a)*7,x2:cx+Math.cos(a)*24,y2:cy+Math.sin(a)*24},g)}});
+ /* Boden mit Rollen des Prüfstands */
+ erde(630,G,650,14);
+ [820,1080].forEach(cx=>{[cx-20,cx+20].forEach(x=>{mk('circle',{cx:x,cy:G+6,r:10,fill:WS});copic({k:[x,G+6,10]},FARBE.himmel,{nib:6,op:.6});mk('circle',{cx:x,cy:G+6,r:10,class:'k1'})})});
+ mk('line',{x1:630,y1:G,x2:1280,y2:G,class:'k3'});
+ figur(676,G,60,'steht',FARBE.rot);
+ figur(1222,G,60,'steht',FARBE.himmel);figur(1256,G,56,'geht',null,{dir:-1});
+ tx(820,370,'VORNE · BIRNENKERN','lbk',{'text-anchor':'middle'});
+ tx(950,370,'ROLLEN = PRÜFUNG','lbk',{'text-anchor':'middle'});
+ tx(1080,370,'HINTEN · APFELKERN','lbk',{'text-anchor':'middle'});
+ titel(620,404,'ansicht','Seitenansicht · auf dem Rollenprüfstand','Allrad, beide Achsen auf Rollen · Figuren sind Rollen: Betrieb, Prüfung, Nutzer',FARBE.kuehl);}
+
+/* ---- SCHNITT A–A · Kraftfluss eines Release ---- */
+{const W=600;
+ copic({r:[630,446,650,266]},FARBE.kuehl,{quer:1,nib:18,op:.12,luecke:.35,raus:0});
+ /* Motor geschnitten: vier Zylinder, Kolben, Kurbelwelle */
+ const mo='M660,514 H800 V646 H660 Z M670,524 V636 H790 V524 Z';
+ mk('rect',{x:670,y:524,width:120,height:112,fill:WS});copic({r:[670,524,120,112]},FARBE.ocker,{nib:12,op:.35,lagen:2});
+ mk('path',{d:mo,fill:TU,'fill-rule':'evenodd'});
+ [680,707,734,761].forEach((x,i)=>{mk('rect',{x:x,y:532,width:20,height:66,fill:WS,class:'k1'});const ky=i%2?566:552;
+  mk('rect',{x:x+1,y:ky,width:18,height:14,fill:WS});schraffur({r:[x+1,ky,18,14]},{abstand:2.4});mk('rect',{x:x+1,y:ky,width:18,height:14,class:'k1'});
+  mk('line',{x1:x+10,y1:ky+14,x2:x+10+(i%2?-4:4),y2:618,class:'k1'})});
+ mk('line',{x1:672,y1:618,x2:808,y2:618,class:'k2'});
+ tx(730,508,'MOTOR · PUSH','lb',{'text-anchor':'middle'});
+ /* Getriebe: drei Radpaare */
+ mk('rect',{x:812,y:560,width:88,height:76,fill:WS});copic({r:[812,560,88,76]},FARBE.kuehl,{nib:9,op:.4});
+ [834,856,878].forEach((x,i)=>{mk('circle',{cx:x,cy:582,r:7+i*1.5,class:'k1',fill:WS});mk('circle',{cx:x,cy:W+8,r:12-i*1.5,class:'k1',fill:WS})});
+ mk('rect',{x:812,y:560,width:88,height:76,class:'k2'});schraffur({r:[812,560,88,6]},{abstand:2,kreuz:1});
+ tx(856,552,'GETRIEBE · MAIN','lbk',{'text-anchor':'middle'});
+ /* Mittensperre: Hohlrad, Sonne, drei Planeten */
+ mk('circle',{cx:950,cy:W,r:36,fill:WS});copic({k:[950,W,36]},FARBE.himmel,{nib:10,op:.55,lagen:2});
+ mk('circle',{cx:950,cy:W,r:36,fill:'none',stroke:TU,'stroke-width':6});
+ {const g=mk('g',{class:'k1'});mk('circle',{cx:950,cy:W,r:9,fill:WS},g);for(let i=0;i<3;i++){const a=i*2*Math.PI/3-Math.PI/2;mk('circle',{cx:950+Math.cos(a)*20,cy:W+Math.sin(a)*20,r:8,fill:WS},g)}}
+ tx(950,552,'MITTENSPERRE','lb',{'text-anchor':'middle'});nk(994,566,'P');
+ /* Kardanwelle mit Gelenken */
+ mk('line',{x1:986,y1:W-4,x2:1146,y2:W-4,class:'k2'});mk('line',{x1:986,y1:W+4,x2:1146,y2:W+4,class:'k2'});
+ [996,1136].forEach(x=>mk('circle',{cx:x,cy:W,r:6,fill:WS,class:'k1'}));
+ /* Hinterachsdifferenzial */
+ mk('circle',{cx:1190,cy:W,r:34,fill:WS});copic({k:[1190,W,34]},FARBE.warm,{nib:10,op:.55});
+ mk('circle',{cx:1190,cy:W,r:34,fill:'none',stroke:TU,'stroke-width':6});mk('circle',{cx:1190,cy:W,r:14,class:'k1',fill:WS});
+ tx(1190,552,'HINTERACHSE · APFELKERN','lbk',{'text-anchor':'middle'});
+ /* Boden mit Mulde, darin das Reserverad = Sicherung, offen */
+ mk('path',{d:'M640,668 H1086 V704 H1250 V668 H1272',class:'k3'});
+ rr(1100,676,136,22,0,'vor');copic({r:[1100,676,136,22]},FARBE.warm,{quer:1,nib:8,op:.35,raus:0});
+ tx(1168,691,'RESERVERAD · SICHERUNG','slk',{'text-anchor':'middle'});
+ tx(1168,724,'STAND 09.11. · VIER COMMITS ZURÜCK · OFFEN','lbk',{'text-anchor':'middle'});nk(1080,690,'S');
+ /* Welle nach vorn unter dem Motor, verdeckt */
+ mk('line',{x1:930,y1:654,x2:664,y2:654,class:'kd'});tx(800,664,'ZUR VORDERACHSE · BIRNENKERN','lbk',{'text-anchor':'middle'});
+ /* Kraftfluss */
+ weg([[790,W+18],[812,W+18]]);weg([[900,W],[914,W]]);weg([[986,W],[1156,W]]);weg([[936,632],[936,650],[668,650]],{strich:1});
+ dimH(800,1224,486,null,null,'Kraftfluss Push bis Install · Prüfung 16 s, grün',{c:'dts'});
+ kote(640,668,'BODEN',660);
+ tx(642,462,'A','sa',{'text-anchor':'middle'});tx(1268,462,'A','sa',{'text-anchor':'middle'});
+ titel(620,770,'schnitt','Schnitt A–A · Kraftfluss eines Release','Push, Sperre P, beide Achsen · Reserverad S im Boden',FARBE.rot);}
+
+/* ---- ZEITACHSE · 08. bis 17.11.2026, 1 Tag = 66 ---- */
+{const T=d=>650+(d-8)*66,dt=(d,h,m)=>d+(h+m/60)/24,yb=922,yh=898,LV=[0,878,858,838];
+ {const x=T(dt(13,14,16)),w=T(17)-x;mk('rect',{x:x,y:yh,width:w,height:24,fill:WS});copic({r:[x,yh,w,24]},FARBE.warm,{quer:1,nib:9,op:.4,raus:0});
+  rr(x,yh,w,24,0,'vor');slotLabel(x,yh,w,24,'Sicherung ohne Abgleich',null,'slk')}
+ mk('line',{x1:T(8),y1:yb,x2:T(17.5),y2:yb,class:'cut'});
+ for(let d=8;d<=17;d++){const x=T(d);mk('line',{x1:x,y1:yb,x2:x,y2:yb+6,class:'thin'});tx(x,yb+18,String(d).padStart(2,'0')+'.11.','dts',{'text-anchor':'middle'})}
+ const ev=(t,lv,k,l,s)=>{const x=T(t),y=LV[lv];mk('circle',{cx:x,cy:yb,r:2.2,class:'dot'});
+  mk('line',{x1:x,y1:yb,x2:x,y2:y+6,class:'lead'});let w=0;if(k)w=nk(x,y,k);else mk('circle',{cx:x,cy:y+4,r:1.8,class:'dot'});
+  tx(s>0?x+w/2+6:x-w/2-6,y+4,l,'dts',{'text-anchor':s>0?'start':'end'})};
+ ev(dt(8,19,43),3,'A1','apfelkern 1.0.0',1);
+ ev(dt(9,7,3),1,'S','Sicherung zuletzt',1);
+ /* Bündel: mehrere Ereignisse an einem Tag, Liste daneben */
+ const bund=(ts,seite,zeilen)=>{const xs=ts.map(T);xs.forEach(x=>mk('circle',{cx:x,cy:yb,r:2.2,class:'dot'}));
+  const x=Math.max(...xs),xl=seite>0?x+18:Math.min(...xs)-18;
+  mk('polyline',{points:`${x},${yb} ${x},818 ${xl},818`,class:'lead'});
+  zeilen.forEach(([k,l],i)=>{const y=806+i*16;if(seite>0){const w=nk(xl+8,y,k);tx(xl+8+w/2+6,y+4,l,'dts')}else{const w=nk(xl-8,y,k);tx(xl-8-w/2-6,y+4,l,'dts',{'text-anchor':'end'})}})};
+ bund([dt(13,14,14),dt(13,14,16),dt(13,14,32),dt(13,17,31)],-1,[['B1','14:14 Birne 1.0.0'],['A2','14:16 Apfel trägt Birne'],['B2','14:32 Birne 1.1.0'],['A3','14:32 Apfel 1.2.0'],['P','17:31 grün']]);
+ bund([dt(16,14,16),dt(16,14,52),dt(16,14,54),dt(16,16,58)],-1,[['B3','14:16 Birne 1.2.0 bunt'],['A4','14:52 fest auf 1.1.0'],['P','14:54 und 16:58 grün']]);
+ titel(620,982,'zeit','Zeitachse · 08. bis 17.11.2026','Ortszeit · Strich-Punkt = offen',FARBE.rot);}
+
+/* ---- TABELLEN rechts, Kopfzeile mit Copic ---- */
+{const x=1330,kopf=(y,w)=>copic({r:[x,y,w,17]},FARBE.rot,{quer:1,nib:9,op:.28,raus:0});
+ kopf(74,330);
+ let y=table(x,74,'Schritte',['Kz.','Was','Stand'],[
+  ['A1','apfelkern 1.0.0','08.11. · 2a05f53'],
+  ['B1','birnenkern 1.0.0','13.11. · d95e792'],
+  ['A2','Apfel trägt Birne, 1.1.0','13.11. · c834962'],
+  ['B2','birnenkern 1.1.0','13.11. · 7ccea9d'],
+  ['A3','apfelkern 1.2.0, Abgleich','13.11. · 4af48ee'],
+  ['B3','birnenkern 1.2.0, bunt','16.11. · 23e9819'],
+  ['A4','Abgleich fest auf 1.1.0','16.11. · 71d94ed'],
+  ['P','Birne-Abgleich, 3 Läufe','grün'],
+  ['S','Sicherung apfelkern','offen · Betrieb']],[40,176,114],['c','l','l']);
+ kopf(y,330);
+ y=table(x,y,'Kennwerte',['Was','Wert','Fundstelle'],[
+  ['Birne in birnenkern','1.2.0','plugin.json'],
+  ['Apfel in apfelkern','1.2.0','plugin.json'],
+  ['Birne in Apfel','1.1.0','Workflow-Ref'],
+  ['Prüfung 16.11.','16 s · grün','Actions-Lauf'],
+  ['Läufe seit 13.11.','3 · alle grün','Actions'],
+  ['Sicherung','Stand 09.11.','git-Ref']],[120,95,115],['l','l','l']);
+ kopf(y,330);
+ y=table(x,y,'Quellen',['Was','Woher'],[
+  ['Commits, Zeiten','git log beider Repos'],
+  ['Prüfläufe','GitHub Actions, Lauf-Protokolle'],
+  ['Fassungen','plugin.json, marketplace.json'],
+  ['Fahrzeug, Achsen','Bild für den Aufbau']],[110,220],['l','l']);
+ tx(x,y+4,'Farbe · Copic','vt');
+ [[FARBE.rot,'Kraftfluss'],[FARBE.himmel,'Glas, Prüfung'],[FARBE.kuehl,'Stahl, Karosse'],[FARBE.ocker,'Guss, Motor']].forEach(([c,l],i)=>{const sx=x+i*84;
+  copic({r:[sx,y+16,70,12]},c,{quer:1,nib:12,op:.6,raus:0,lagen:2});tx(sx,y+42,l,'dts')});}
+
+/* ---- ALLGEMEINE HINWEISE und SCHRIFTFELD unten rechts ---- */
+legende(1330,808,330,[['voll','durch'],['offen','offen'],['platzhalter','draußen'],['P','Schritt']],
+ 'Das Fahrzeug ist ein Bild für den Aufbau, nicht vom Plan messen. Rot ist der Kraftfluss vom Push bis zur Installation. Figuren sind Rollen, keine Personen. Zeiten in Ortszeit.');
+schriftfeld({abt:'hellowelt',quelle:'git, GitHub Actions',status:'Stand 17.11.',titel:'Deployment Birne und Apfel',zusatz:'Bunt und in Farbe · Allrad, zwei Achsen, eine Sperre',
+ nr:'BIR-DEPLOY-02',massstab:'schematisch',refLabel:'Fassung',ref:'Birne 1.2.0',aend:'A',datum:'2026-11-17',blatt:'1/1'});
+tusche();
+});
+})();
+</script>
